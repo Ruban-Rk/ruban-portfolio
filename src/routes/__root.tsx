@@ -1,4 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import CustomCursor from "../components/CustomCursor";
+import { CursorProvider } from "../hooks/use-cursor";
+import { ThemeProvider } from "../hooks/use-theme";
 import {
   Outlet,
   Link,
@@ -102,6 +105,22 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var savedTheme = localStorage.getItem('theme');
+                  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -114,8 +133,13 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
-    <QueryClientProvider client={queryClient}>
-      <Outlet />
-    </QueryClientProvider>
+    <ThemeProvider>
+      <CursorProvider>
+        <CustomCursor />
+        <QueryClientProvider client={queryClient}>
+          <Outlet />
+        </QueryClientProvider>
+      </CursorProvider>
+    </ThemeProvider>
   );
 }
