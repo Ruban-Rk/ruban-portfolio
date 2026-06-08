@@ -549,6 +549,7 @@ function HelpSection() {
       className="grid gap-10 px-6 py-16 md:grid-cols-2 md:px-14 md:py-24 bg-[var(--color-card)]"
     >
       <ScrollReveal variant="fade-right" className="space-y-5" stagger={150}>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-8">{portfolioData.sectionTitles?.services || "My Services"}</h2>
         {services.map(({ title, count }, idx) => {
           const Icon = SERVICE_ICONS[idx % SERVICE_ICONS.length];
           const color = SERVICE_COLORS[idx % SERVICE_COLORS.length];
@@ -574,7 +575,7 @@ function HelpSection() {
 
       <div>
         <ScrollReveal variant="fade-left">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-primary">What do I do?</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.about || "What do I do?"}</h2>
         </ScrollReveal>
         <ScrollReveal variant="fade-up" delay={200}>
           <p className="mt-6 text-muted-foreground leading-relaxed">{about.description1}</p>

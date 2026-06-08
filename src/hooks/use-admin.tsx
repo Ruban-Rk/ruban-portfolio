@@ -144,6 +144,8 @@ export interface PortfolioData {
     moments: string;
     badges: string;
     testimonials: string;
+    about: string;
+    services: string;
   };
 }
 
@@ -181,6 +183,8 @@ export const defaultPortfolioData: PortfolioData = {
     moments: "MY MOMENTS",
     badges: "BADGES & CERTIFICATIONS",
     testimonials: "PEOPLE TALK ABOUT ME",
+    about: "What do I do?",
+    services: "My Services",
   },
   hero: {
     name: "Ruban",

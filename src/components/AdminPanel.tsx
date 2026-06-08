@@ -744,7 +744,11 @@ export function AdminPanel() {
         {/* ── ABOUT ── */}
         {tab === "about" && (
           <div>
-            <div style={sectionTitle}>About / What I Do</div>
+            <div style={sectionTitle}>About Section</div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.about || "What do I do?"} onChange={(e) => update("sectionTitles.about", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             <div style={fieldStyle}>
               <label style={labelStyle}>Description 1</label>
               <textarea className="admin-input" style={{ ...inputStyle, minHeight: "100px" }}
@@ -777,7 +781,11 @@ export function AdminPanel() {
         {/* ── SERVICES ── */}
         {tab === "services" && (
           <div>
-            <div style={sectionTitle}>Services / Skills</div>
+            <div style={sectionTitle}>Services / Offerings</div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.services || "My Services"} onChange={(e) => update("sectionTitles.services", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             {localData.services.map((s, i) => (
               <div key={i} style={{ marginBottom: "16px", padding: "14px", background: "rgba(255,255,255,0.03)", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", marginBottom: "10px", fontWeight: 600 }}>SERVICE {i + 1}</div>
