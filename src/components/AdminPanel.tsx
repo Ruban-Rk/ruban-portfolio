@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
+import { Eye, EyeOff } from "lucide-react";
 import { useAdmin } from "@/hooks/use-admin";
 import type { PortfolioData, SkillCategory } from "@/hooks/use-admin";
 import { useComments } from "@/hooks/use-comments";
@@ -10,6 +11,7 @@ import { getInitials, pickAvatarColor } from "@/hooks/use-comments";
 export function AdminLoginModal() {
   const { login, setShowLoginModal } = useAdmin();
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [shake, setShake] = useState(false);
@@ -121,27 +123,49 @@ export function AdminLoginModal() {
           <label style={{ color: "rgba(255,255,255,0.6)", fontSize: "12px", fontFamily: "'Inter', sans-serif", letterSpacing: "0.1em", display: "block", marginBottom: "8px" }}>
             PASSWORD
           </label>
-          <input
-            className="admin-login-input"
-            type="password"
-            value={password}
-            onChange={(e) => { setPassword(e.target.value); setError(""); }}
-            onKeyDown={handleKey}
-            placeholder="Enter admin password…"
-            autoFocus
-            style={{
-              width: "100%",
-              padding: "12px 16px",
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.12)",
-              borderRadius: "12px",
-              color: "#fff",
-              fontSize: "15px",
-              fontFamily: "'Inter', sans-serif",
-              transition: "border-color 0.2s, box-shadow 0.2s",
-              boxSizing: "border-box",
-            }}
-          />
+          <div style={{ position: "relative" }}>
+            <input
+              className="admin-login-input"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => { setPassword(e.target.value); setError(""); }}
+              onKeyDown={handleKey}
+              placeholder="Enter admin password…"
+              autoFocus
+              style={{
+                width: "100%",
+                padding: "12px 48px 12px 16px",
+                background: "rgba(255,255,255,0.06)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                borderRadius: "12px",
+                color: "#fff",
+                fontSize: "15px",
+                fontFamily: "'Inter', sans-serif",
+                transition: "border-color 0.2s, box-shadow 0.2s",
+                boxSizing: "border-box",
+              }}
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              style={{
+                position: "absolute",
+                right: "12px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "transparent",
+                border: "none",
+                color: "rgba(255,255,255,0.5)",
+                cursor: "pointer",
+                padding: "4px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
         </div>
 
         {error && (
