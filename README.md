@@ -1,142 +1,91 @@
 <div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=250&section=header&text=Ruban's%20Cyber%20Portfolio&fontSize=70&fontAlignY=35&animation=twinkling&fontColor=ffffff" width="100%" />
 
-# 🧑‍💻 Ruban Kumar R — Portfolio
+  <br />
+  
+  <a href="https://github.com/Ruban-Rk/ruban-portfolio">
+    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=26&pause=1000&color=A5B4FC&center=true&vCenter=true&width=435&lines=Welcome+to+the+Matrix;Interactive.+Cinematic.+Fast.;Built+with+Vite+%2B+React;Powered+by+Firebase" alt="Typing SVG" />
+  </a>
+  
+  <br />
 
-**AI & Data Science Undergrad · Linux Enthusiast · Security Explorer**
-
-[![Live Site](https://img.shields.io/badge/🌐_Live_Site-Visit-coral?style=for-the-badge)](https://ruban-rk.github.io)
-[![GitHub](https://img.shields.io/badge/GitHub-Ruban--Rk-181717?style=for-the-badge&logo=github)](https://github.com/Ruban-Rk)
-[![Made with React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
-
-<br />
-
-> *"Learn deeply. Build consistently. Ship things that actually solve problems."*
-
+  <p align="center">
+    <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" /></a>
+    <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E" alt="Vite" /></a>
+    <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" /></a>
+    <a href="https://firebase.google.com/"><img src="https://img.shields.io/badge/firebase-ffca28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" /></a>
+  </p>
 </div>
 
 ---
 
-## ✨ What's Inside
+## 🌌 Overview
 
-A clean, fast, cream-toned portfolio site built from scratch — no templates. Features a bold typographic hero, timeline experience section, project cards, testimonials, and a contact block. Fully responsive.
+A highly customized, interactive, and aesthetic portfolio designed to feel like a high-end cinematic experience. Featuring a cyberpunk Matrix-rain background, glassmorphism UI, a highly configurable custom cursor, live public comments, and a **hidden admin panel** controlled remotely through Firebase.
 
----
+<br/>
 
-## 🛠️ Tech Stack
+## ✨ Key Features
 
-| Layer | Tech |
-|-------|------|
-| ⚛️ Framework | TanStack Start v1 + React 19 |
-| 🎨 Styling | Tailwind CSS v4 + tw-animate-css |
-| 🧭 Routing | TanStack Router (file-based) |
-| 🧩 UI | shadcn/ui (New York style) |
-| 🔠 Fonts | Inter · Poppins · Caveat |
-| 🖼️ Icons | lucide-react |
-| ⚡ Build | Vite 7 |
-| 📦 Package Manager | Bun |
+- **🛡️ Secret Admin Panel**: Completely hidden from the public. Triggered exclusively by clicking the logo 5 times.
+- **👁️ Live View Counter**: Synced globally using Firebase Firestore to track unique visitors.
+- **💬 Public Guestbook/Comments**: Users can leave their thoughts, and the Admin can delete or **Pin** favorite comments.
+- **🖱️ Ultimate Custom Cursor**: 100% configurable via the Admin Panel. Change shapes, opacity, size, inject images, or even run raw HTML/CSS logic on the fly.
+- **🌧️ Matrix Rain Background**: A fully interactive, lightweight canvas background with glowing green/red terminal characters.
+- **📱 Fully Responsive**: From ultra-wide monitors down to standard mobile devices.
+- **✨ Micro-Animations**: Smooth fade-ins, scrolling reveals, and typing effects utilizing the latest in modern UI design.
 
----
+<br/>
 
-## 🗂️ Project Structure
+## 🚀 Quick Start
 
-```
-ruban-portfolio/
-├── 📁 src/
-│   ├── 📁 assets/          → hero portrait image
-│   ├── 📁 components/ui/   → shadcn/ui components
-│   ├── 📁 hooks/           → custom React hooks
-│   ├── 📁 lib/             → utilities & server helpers
-│   ├── 📁 routes/
-│   │   ├── __root.tsx      → app shell, fonts, meta tags
-│   │   └── index.tsx       → full portfolio page
-│   ├── router.tsx
-│   ├── server.ts
-│   └── styles.css          → Tailwind v4 + design tokens
-├── package.json
-├── tsconfig.json
-└── vite.config.ts
-```
-
----
-
-## 🚀 Run Locally
-
-**1. Install bun**
-```bash
-curl -fsSL https://bun.sh/install | bash
-exec /usr/bin/zsh
-```
-
-**2. Clone & install**
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/Ruban-Rk/ruban-portfolio.git
 cd ruban-portfolio
-bun install
 ```
 
-**3. Add shadcn components**
+### 2. Install Dependencies
+Make sure you have Node.js and `npm` (or `bun`) installed.
 ```bash
-npx shadcn@latest init
-npx shadcn@latest add button card badge separator tooltip
+npm install
 ```
 
-**4. Start dev server**
+### 3. Setup Firebase & Environment
+Create a `.env` file in the root directory and add your Firebase credentials and secret admin password:
+```env
+VITE_FIREBASE_API_KEY="your_api_key"
+VITE_FIREBASE_AUTH_DOMAIN="your_project.firebaseapp.com"
+VITE_FIREBASE_PROJECT_ID="your_project_id"
+VITE_FIREBASE_STORAGE_BUCKET="your_project.appspot.com"
+VITE_FIREBASE_MESSAGING_SENDER_ID="sender_id"
+VITE_FIREBASE_APP_ID="app_id"
+
+VITE_ADMIN_PASSWORD="your_super_secret_password"
+```
+
+### 4. Run Development Server
 ```bash
-bun run dev
+npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) 🎉
+<br/>
 
----
+## 🛠️ Admin Controls
 
-## ✏️ Customise
+Once deployed, the Admin Panel gives you total control over the UI without touching the code:
+- **Toggle View Counter**: Hide or show the live view badge.
+- **Set Manual View Count**: Override the views.
+- **Cursor Config**: Turn the cursor into a circle, square, custom image, or raw code injection.
+- **Manage Comments**: Delete spam, pin great comments.
+- **Hero & Intro Sync**: Change the landing image and sync/unsync the intro animations directly from the dashboard.
 
-All content lives in `src/routes/index.tsx` as plain arrays — no CMS needed:
+<br/>
 
-```tsx
-// 🔧 Edit these to make it yours
-const services = [ ... ]   // skills section
-const timeline = [ ... ]   // experience entries  
-const works    = [ ... ]   // project cards
-```
+## 📜 License
 
-Also update your email, phone, and LinkedIn links inside the same file.
-
----
-
-## 📦 Build for Production
-
-```bash
-bun run build
-bun run preview
-```
-
----
-
-## 🌐 Sections
-
-- **Hero** — name, photo, tagline, social links
-- **Services** — Linux, Cybersecurity, AI/ML skill cards
-- **Experience** — timeline: internship, college, self-taught
-- **Works** — project cards linking to GitHub
-- **Notes** — testimonials from mentors
-- **Contact** — email, phone, social links
-
----
-
-## 👤 About Me
-
-B.Tech AI & Data Science student at **Rajalakshmi Engineering College**, Chennai (2024–2028).
-Passionate about Linux systems, cybersecurity fundamentals, and machine learning.
-Space Tech Intern @ Indian Space Academy · 2025.
-
----
+This project is open-source and available under the [MIT License](LICENSE).
 
 <div align="center">
-
-Made with ☕ and a lot of `bun run dev` restarts
-
-**[github.com/Ruban-Rk](https://github.com/Ruban-Rk)**
-
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=auto&height=100&section=footer" width="100%" />
 </div>
