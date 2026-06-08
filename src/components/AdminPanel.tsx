@@ -819,7 +819,11 @@ export function AdminPanel() {
         {/* ── EXPERIENCE ── */}
         {tab === "experience" && (
           <div>
-            <div style={sectionTitle}>Experience / Timeline</div>
+            <div style={sectionTitle}>Experience Settings</div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.timeline || "MY EXPERIENCE"} onChange={(e) => update("sectionTitles.timeline", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             {localData.timeline.map((t, i) => {
               const updateEntry = (field: string, value: unknown) => {
                 const next = [...localData.timeline];
@@ -979,7 +983,11 @@ export function AdminPanel() {
         {/* ── WORKS ── */}
         {tab === "works" && (
           <div>
-            <div style={sectionTitle}>Latest Works / Projects</div>
+            <div style={sectionTitle}>Works Settings</div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.works || "MY LATEST WORK"} onChange={(e) => update("sectionTitles.works", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             {localData.works.map((w, i) => (
               <div key={i} style={{ marginBottom: "16px", padding: "14px", background: "rgba(255,255,255,0.03)", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", marginBottom: "10px", fontWeight: 600 }}>PROJECT {i + 1}</div>
@@ -1077,7 +1085,11 @@ export function AdminPanel() {
         {/* ── BADGES ── */}
         {tab === "badges" && (
           <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-            <h3 style={{ margin: 0, color: "#fff", fontSize: "16px", fontWeight: 600 }}>Badges & Certifications</h3>
+            <h3 style={{ margin: 0, color: "#fff", fontSize: "16px", fontWeight: 600 }}>Badges Settings</h3>
+            <div style={{ marginBottom: "5px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.badges || "BADGES & CERTIFICATIONS"} onChange={(e) => update("sectionTitles.badges", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             {(localData.badges || []).map((b, i) => (
               <div key={b.id || i} style={{ padding: "16px", background: "rgba(255,255,255,0.03)", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.06)", position: "relative" }}>
                 <button
@@ -1172,7 +1184,11 @@ export function AdminPanel() {
         {/* ── TESTIMONIALS ── */}
         {tab === "testimonials" && (
           <div>
-            <div style={sectionTitle}>Testimonials / Reviews</div>
+            <div style={sectionTitle}>Testimonials Settings</div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.testimonials || "PEOPLE TALK ABOUT ME"} onChange={(e) => update("sectionTitles.testimonials", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             {localData.testimonials.map((t, i) => (
               <div key={i} style={{ marginBottom: "16px", padding: "14px", background: "rgba(255,255,255,0.03)", borderRadius: "10px", border: "1px solid rgba(255,255,255,0.06)" }}>
                 <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "11px", marginBottom: "10px", fontWeight: 600 }}>REVIEW {i + 1}</div>
@@ -1240,7 +1256,11 @@ export function AdminPanel() {
         {/* ── MOMENTS ── */}
         {tab === "moments" && (
           <div>
-            <div style={sectionTitle}>📸 Moments Gallery</div>
+            <div style={sectionTitle}>Moments Settings</div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.moments || "MY MOMENTS"} onChange={(e) => update("sectionTitles.moments", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             <div style={{ padding: "16px", background: "rgba(99,102,241,0.08)", borderRadius: "12px", border: "1px solid rgba(99,102,241,0.2)", marginBottom: "16px" }}>
               <p style={{ color: "rgba(255,255,255,0.6)", fontSize: "13px", margin: "0 0 12px", fontFamily: "'Inter', sans-serif", lineHeight: 1.6 }}>
                 Manage your personal moments gallery — add photos, descriptions, tags and dates for meetups, events and memories.
@@ -1277,7 +1297,11 @@ export function AdminPanel() {
         {/* ── SKILLS ── */}
         {tab === "skills" && (
           <div>
-            <div style={sectionTitle}>🎮 Skills & Tools</div>
+            <div style={sectionTitle}>Skills Settings</div>
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", marginBottom: "8px", fontSize: "12px", color: "rgba(255,255,255,0.7)", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>SECTION TITLE</label>
+              <input type="text" value={localData.sectionTitles?.skills || "SKILLS & TOOLS"} onChange={(e) => update("sectionTitles.skills", e.target.value)} className="admin-input" style={{ width: "100%", padding: "10px", borderRadius: "6px", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontFamily: "'Inter', sans-serif", fontSize: "14px" }} />
+            </div>
             <div style={{ padding: "12px", background: "rgba(6,182,212,0.06)", borderRadius: "10px", border: "1px solid rgba(6,182,212,0.15)", marginBottom: "16px" }}>
               <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "12px", margin: 0, fontFamily: "'Inter', sans-serif", lineHeight: 1.6 }}>
                 Manage your interactive skill tree. Each skill appears as an orb in the game-like visualization. Set a proficiency level (0–100), pick a category for color coding, and assign XP that visitors earn by clicking.

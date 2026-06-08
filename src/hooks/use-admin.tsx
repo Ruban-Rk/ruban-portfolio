@@ -137,6 +137,14 @@ export interface PortfolioData {
   introConfig?: IntroConfig;
   cursorConfig?: CursorConfig;
   viewCounterConfig?: ViewCounterConfig;
+  sectionTitles?: {
+    skills: string;
+    timeline: string;
+    works: string;
+    moments: string;
+    badges: string;
+    testimonials: string;
+  };
 }
 
 export const defaultPortfolioData: PortfolioData = {
@@ -165,6 +173,14 @@ export const defaultPortfolioData: PortfolioData = {
   },
   viewCounterConfig: {
     enabled: true,
+  },
+  sectionTitles: {
+    skills: "SKILLS & TOOLS",
+    timeline: "MY EXPERIENCE",
+    works: "MY LATEST WORK",
+    moments: "MY MOMENTS",
+    badges: "BADGES & CERTIFICATIONS",
+    testimonials: "PEOPLE TALK ABOUT ME",
   },
   hero: {
     name: "Ruban",

@@ -551,7 +551,7 @@ export default function SkillsBubbles() {
           background: "linear-gradient(135deg, var(--color-cyan) 0%, var(--color-accent) 50%, var(--color-yellow) 100%)",
           WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
           fontFamily: "Poppins, sans-serif", letterSpacing: "-0.02em" }}>
-          Skills &amp; Tools
+          {portfolioData.sectionTitles?.skills || "Skills & Tools"}
         </h2>
         <p style={{ marginTop: "8px", color: "var(--muted-foreground)", fontSize: "14px", fontFamily: "Inter, sans-serif" }}>
           Hover to explore · Click to collect XP

@@ -674,7 +674,7 @@ function Experience() {
   return (
     <section id="experience" className="px-6 py-16 md:px-14 md:py-24">
       <ScrollReveal variant="fade-up">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-12">My Experience</h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-12">{portfolioData.sectionTitles?.timeline || "My Experience"}</h2>
       </ScrollReveal>
       <div className="space-y-12">
         {timeline.map((t, i) => (
@@ -755,7 +755,7 @@ function LatestWorks() {
       <ScrollReveal variant="fade-up">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">My Latest Works</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.works || "My Latest Works"}</h2>
             <p className="mt-3 text-muted-foreground">A peek at what I'm currently building.</p>
           </div>
           <div className="hidden md:flex items-center gap-6">
@@ -886,7 +886,7 @@ function MomentsPreview() {
               <Camera className="h-5 w-5 text-[var(--color-accent)]" />
               <span className="text-xs font-bold tracking-widest text-[var(--color-accent)] uppercase">Gallery</span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">My Moments</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.moments || "My Moments"}</h2>
             <p className="mt-3 text-muted-foreground">Favourite memories, meetups and events captured.</p>
           </div>
           <Link
@@ -1065,7 +1065,7 @@ function Testimonials() {
   return (
     <section id="notes" className="px-6 py-16 md:px-14 md:py-24 text-center">
       <ScrollReveal variant="fade-up">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-primary">People talk about me</h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.testimonials || "People talk about me"}</h2>
         <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
           Notes from mentors, peers, and teammates I've worked with along the way.
         </p>

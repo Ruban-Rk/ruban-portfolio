@@ -43,7 +43,9 @@ function BadgesPage() {
           <div className="flex items-center gap-3 mb-4">
             <Award className="h-8 w-8 text-cyan-500" />
             <h1 className="text-4xl md:text-6xl font-black tracking-tight font-poppins">
-              All <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Badges</span>
+              {portfolioData.sectionTitles?.badges || (
+                <>All <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Badges</span></>
+              )}
             </h1>
           </div>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl">

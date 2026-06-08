@@ -981,17 +981,21 @@ function MomentsPage() {
                 className="text-5xl md:text-6xl font-extrabold text-primary"
                 style={{ lineHeight: 1.1, marginBottom: "16px" }}
               >
-                My{" "}
-                <span
-                  style={{
-                    background: "linear-gradient(135deg, #6366f1, #a855f7, #ec4899)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                  }}
-                >
-                  Moments
-                </span>
+                {portfolioData.sectionTitles?.moments || (
+                  <>
+                    My{" "}
+                    <span
+                      style={{
+                        background: "linear-gradient(135deg, #6366f1, #a855f7, #ec4899)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      Moments
+                    </span>
+                  </>
+                )}
               </h1>
             </ScrollReveal>
 
