@@ -84,7 +84,7 @@ function useHiddenAdminTrigger() {
     if (isAdmin) return;
     clickCount.current += 1;
     clearTimeout(timer.current);
-    if (clickCount.current >= 3) {
+    if (clickCount.current >= 5) {
       clickCount.current = 0;
       setShowLoginModal(true);
     } else {
@@ -227,14 +227,6 @@ function Nav() {
         >
           MOMENTS
         </Link>
-        {!isAdmin && (
-          <button
-            onClick={() => setShowLoginModal(true)}
-            className="hidden"
-            id="admin-login-trigger"
-            aria-label="Admin Login"
-          />
-        )}
       </nav>
 
       {/* Actions & Mobile Toggle */}

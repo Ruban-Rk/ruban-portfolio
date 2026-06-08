@@ -295,8 +295,8 @@ interface AdminContextType {
 
 const AdminContext = createContext<AdminContextType | null>(null);
 
-// ─── ADMIN PASSWORD (change this!) ────────────────────────────────
-const ADMIN_PASSWORD = "ruban@admin2024";
+// ─── ADMIN PASSWORD ────────────────────────────────
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "fallback@password";
 
 const STORAGE_KEY = "ruban_portfolio_data";
 const ADMIN_KEY = "ruban_admin_session";
