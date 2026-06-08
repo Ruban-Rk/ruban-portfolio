@@ -18,8 +18,8 @@ export default function MatrixRain() {
     canvas.width = width;
     canvas.height = height;
 
-    // Characters array (0s and 1s)
-    const chars = ["0", "1"];
+    // Hacker-style strings
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?".split("");
 
     const fontSize = 16;
     let columns = Math.floor(width / fontSize);
@@ -31,17 +31,14 @@ export default function MatrixRain() {
       drops[i] = height + Math.random() * height;
     }
 
-    // Colors
-    // Neon Cyan: oklch(0.75 0.15 200) roughly #00f0ff
-    // Deep Purple: oklch(0.65 0.15 300) roughly #b829ff
-    const colors = ["#00f0ff", "#b829ff"];
+    // Mixed Hacker Red & Matrix Green Colors
+    const colors = ["#ef4444", "#f87171", "#22c55e", "#4ade80"];
 
     let animationFrameId: number;
 
     const draw = () => {
-      // Semi-transparent fill to create fading trail
-      // Use a dark slate/blue-grey color for the trail
-      ctx.fillStyle = theme === "dark" ? "rgba(15, 23, 42, 0.15)" : "rgba(240, 240, 245, 0.2)";
+      // Use a dark slate/blue-grey color for the trail with more alpha to make trails shorter and cleaner
+      ctx.fillStyle = theme === "dark" ? "rgba(15, 23, 42, 0.15)" : "rgba(240, 240, 245, 0.15)";
       ctx.fillRect(0, 0, width, height);
 
       ctx.font = `${fontSize}px monospace`;

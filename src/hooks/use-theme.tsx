@@ -10,7 +10,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>("dark");
 
   useEffect(() => {
     // Check local storage first
@@ -19,11 +19,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       setTheme(savedTheme);
       applyTheme(savedTheme);
     } else {
-      // Fallback to system preference
-      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initialTheme = systemPrefersDark ? "dark" : "light";
-      setTheme(initialTheme);
-      applyTheme(initialTheme);
+      // Default to dark mode for the cyber aesthetic
+      setTheme("dark");
+      applyTheme("dark");
     }
   }, []);
 

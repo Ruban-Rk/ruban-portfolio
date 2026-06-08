@@ -2,6 +2,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CustomCursor from "../components/CustomCursor";
 import { CursorProvider } from "../hooks/use-cursor";
 import { ThemeProvider } from "../hooks/use-theme";
+import { AdminProvider, useAdmin } from "../hooks/use-admin";
+import { AdminPanel, AdminLoginModal } from "../components/AdminPanel";
 import {
   Outlet,
   Link,
@@ -10,7 +12,8 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import { IntroAnimation } from "../components/IntroAnimation";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -111,10 +114,10 @@ function RootShell({ children }: { children: ReactNode }) {
               (function() {
                 try {
                   var savedTheme = localStorage.getItem('theme');
-                  if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                    document.documentElement.classList.add('dark');
-                  } else {
+                  if (savedTheme === 'light') {
                     document.documentElement.classList.remove('dark');
+                  } else {
+                    document.documentElement.classList.add('dark');
                   }
                 } catch (e) {}
               })();
@@ -130,15 +133,56 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function AdminOverlays() {
+  const { isAdmin, showLoginModal } = useAdmin();
+  return (
+    <>
+      {showLoginModal && <AdminLoginModal />}
+      {isAdmin && <AdminPanel />}
+    </>
+  );
+}
+
+function IntroManager() {
+  const { portfolioData } = useAdmin();
+  const [showIntroSession, setShowIntroSession] = useState(() => {
+    if (typeof window !== "undefined") {
+      return !sessionStorage.getItem("intro_played");
+    }
+    return false;
+  });
+
+  const introConfig = portfolioData?.introConfig || { enabled: true, greetingText: "Hey, there I'm", greetingColor: "#ffffff", nameText: "RUBAN", nameColor: "#ef4444", taglines: [] };
+
+  if (showIntroSession && introConfig.enabled) {
+    return (
+      <IntroAnimation 
+        config={introConfig}
+        heroImageUrl={portfolioData?.hero?.imageUrl}
+        onComplete={() => {
+          sessionStorage.setItem("intro_played", "1");
+          setShowIntroSession(false);
+        }} 
+      />
+    );
+  }
+  return null;
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
   return (
     <ThemeProvider>
       <CursorProvider>
-        <CustomCursor />
-        <QueryClientProvider client={queryClient}>
-          <Outlet />
-        </QueryClientProvider>
+        <AdminProvider>
+          <IntroManager />
+          <CustomCursor />
+          <QueryClientProvider client={queryClient}>
+            <Outlet />
+          </QueryClientProvider>
+          <AdminOverlays />
+        </AdminProvider>
       </CursorProvider>
     </ThemeProvider>
   );

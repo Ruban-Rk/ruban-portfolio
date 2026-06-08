@@ -49,12 +49,12 @@ export interface ScrollRevealProps {
 // ────────────────────────────────────────────
 
 const INITIAL_STYLES: Record<ScrollRevealVariant, CSSProperties> = {
-  "fade-up": { opacity: 0, transform: "translateY(40px)" },
-  "fade-down": { opacity: 0, transform: "translateY(-40px)" },
-  "fade-left": { opacity: 0, transform: "translateX(-40px)" },
-  "fade-right": { opacity: 0, transform: "translateX(40px)" },
-  scale: { opacity: 0, transform: "scale(0.9)" },
-  blur: { opacity: 0, filter: "blur(10px)" },
+  "fade-up": { opacity: 0, transform: "translateY(30px)" },
+  "fade-down": { opacity: 0, transform: "translateY(-30px)" },
+  "fade-left": { opacity: 0, transform: "translateX(-30px)" },
+  "fade-right": { opacity: 0, transform: "translateX(30px)" },
+  scale: { opacity: 0, transform: "scale(0.95)" },
+  blur: { opacity: 0, filter: "blur(8px)" },
 };
 
 const VISIBLE_STYLES: Record<ScrollRevealVariant, CSSProperties> = {
@@ -78,9 +78,9 @@ function buildTransitionProperty(variant: ScrollRevealVariant): string {
 export function ScrollReveal({
   variant = "fade-up",
   delay = 0,
-  duration = 700,
-  threshold = 0.1,
-  once = true,
+  duration = 600, // Faster default duration
+  threshold = 0.05, // Trigger sooner (5% visible instead of 10%)
+  once = false,
   className = "",
   children,
   as: Tag = "div",
@@ -102,7 +102,10 @@ export function ScrollReveal({
           setIsVisible(false);
         }
       },
-      { threshold },
+      { 
+        threshold,
+        rootMargin: "0px 0px -20px 0px" // Trigger slightly before it hits the very bottom of viewport
+      },
     );
 
     observer.observe(node);
@@ -121,7 +124,7 @@ export function ScrollReveal({
             willChange: "transform, opacity",
             transitionProperty: buildTransitionProperty(variant),
             transitionDuration: `${duration}ms`,
-            transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+            transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)", // Super smooth snappy easeOutQuint
             transitionDelay: `${childDelay}ms`,
             ...(isVisible ? VISIBLE_STYLES[variant] : INITIAL_STYLES[variant]),
           };
@@ -150,7 +153,7 @@ export function ScrollReveal({
     willChange: "transform, opacity",
     transitionProperty: buildTransitionProperty(variant),
     transitionDuration: `${duration}ms`,
-    transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+    transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)", // Super smooth snappy easeOutQuint
     transitionDelay: `${delay}ms`,
     ...(isVisible ? VISIBLE_STYLES[variant] : INITIAL_STYLES[variant]),
   };
