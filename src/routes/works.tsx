@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, FolderGit2 } from "lucide-react";
 import { useAdmin } from "@/hooks/use-admin";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/works")({
   component: WorksPage,
@@ -27,7 +28,17 @@ const worksColors = [
 
 function WorksPage() {
   const { portfolioData } = useAdmin();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const { works, hero } = portfolioData;
+
+  if (!hasMounted) {
+    return <div className="min-h-screen bg-background relative selection:bg-primary/30 selection:text-primary pb-24" />;
+  }
 
   return (
     <div className="min-h-screen bg-background relative selection:bg-primary/30 selection:text-primary pb-24">

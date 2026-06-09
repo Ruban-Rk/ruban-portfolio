@@ -4,7 +4,7 @@ import type { MomentItem } from "@/hooks/use-admin";
 import MatrixRain from "@/components/MatrixRain";
 import ThemeToggle from "@/components/ThemeToggle";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import {
   ArrowLeft,
   Camera,
@@ -1223,6 +1223,12 @@ function MomentEditor({
 ────────────────────────────────────────────────────────────────── */
 function MomentsPage() {
   const { portfolioData, updatePortfolioData, isAdmin, setShowLoginModal } = useAdmin();
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
   const moments = portfolioData.moments;
   const [editingMoment, setEditingMoment] = useState<MomentItem | null>(null);
   const [filterTag, setFilterTag] = useState<string | null>(null);
@@ -1243,6 +1249,10 @@ function MomentsPage() {
   };
 
   const filteredMoments = filterTag ? moments.filter((m) => m.tags.includes(filterTag)) : moments;
+
+  if (!hasMounted) {
+    return <div className="min-h-screen bg-background relative selection:bg-primary/30 selection:text-primary" />;
+  }
 
   return (
     <>

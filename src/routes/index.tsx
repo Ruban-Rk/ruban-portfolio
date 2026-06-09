@@ -104,13 +104,22 @@ function useIntroGate() {
 
 function Index() {
   const [showTop, setShowTop] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   useIntroGate(); // kept for compatibility, intro is disabled
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (!hasMounted) {
+    return <div className="min-h-screen bg-transparent transition-colors duration-500" />;
+  }
 
   return (
     <>

@@ -3,6 +3,7 @@ import { ArrowLeft, Award } from "lucide-react";
 import { useAdmin } from "@/hooks/use-admin";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { InteractiveBadgeCard } from "@/components/BadgesSection";
+import { useState, useEffect } from "react";
 
 export const Route = createFileRoute("/badges")({
   component: BadgesPage,
@@ -20,6 +21,15 @@ export const Route = createFileRoute("/badges")({
 function BadgesPage() {
   const { portfolioData } = useAdmin();
   const badges = portfolioData.badges || [];
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  if (!hasMounted) {
+    return <div className="min-h-screen bg-background relative selection:bg-primary/30 selection:text-primary" />;
+  }
 
   return (
     <div className="min-h-screen bg-background relative selection:bg-primary/30 selection:text-primary">
