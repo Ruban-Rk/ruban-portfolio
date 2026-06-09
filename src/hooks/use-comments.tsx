@@ -213,5 +213,12 @@ export function useComments() {
     ...comments.filter((c) => !c.pinned).sort((a, b) => b.timestamp - a.timestamp),
   ];
 
-  return { comments: sortedComments, viewCount, addComment, deleteComment, togglePin, setManualViewCount };
+  return {
+    comments: sortedComments,
+    viewCount,
+    addComment,
+    deleteComment,
+    togglePin,
+    setManualViewCount,
+  };
 }

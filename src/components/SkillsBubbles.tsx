@@ -8,22 +8,47 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 
 type Skill = SkillItem;
 
-function getCategoryMeta(isDark: boolean): Record<string, { label: string; color: string; glow: string }> {
+function getCategoryMeta(
+  isDark: boolean,
+): Record<string, { label: string; color: string; glow: string }> {
   return {
-    language: { label: "Language", color: isDark ? "#a855f7" : "#7e22ce", glow: isDark ? "rgba(168,85,247,0.5)" : "rgba(126,34,206,0.3)" },
-    libraries: { label: "Libraries & Frameworks", color: isDark ? "#06b6d4" : "#0284c7", glow: isDark ? "rgba(6,182,212,0.5)" : "rgba(2,132,199,0.3)" },
-    tools: { label: "Tools & Platforms", color: isDark ? "#f59e0b" : "#d97706", glow: isDark ? "rgba(245,158,11,0.5)" : "rgba(217,119,6,0.3)" },
-    databases: { label: "Databases", color: isDark ? "#10b981" : "#059669", glow: isDark ? "rgba(16,185,129,0.5)" : "rgba(5,150,105,0.3)" },
-    security:  { label: "Security", color: isDark ? "#ef4444" : "#dc2626", glow: isDark ? "rgba(239,68,68,0.5)" : "rgba(220,38,38,0.3)" },
+    language: {
+      label: "Language",
+      color: isDark ? "#a855f7" : "#7e22ce",
+      glow: isDark ? "rgba(168,85,247,0.5)" : "rgba(126,34,206,0.3)",
+    },
+    libraries: {
+      label: "Libraries & Frameworks",
+      color: isDark ? "#06b6d4" : "#0284c7",
+      glow: isDark ? "rgba(6,182,212,0.5)" : "rgba(2,132,199,0.3)",
+    },
+    tools: {
+      label: "Tools & Platforms",
+      color: isDark ? "#f59e0b" : "#d97706",
+      glow: isDark ? "rgba(245,158,11,0.5)" : "rgba(217,119,6,0.3)",
+    },
+    databases: {
+      label: "Databases",
+      color: isDark ? "#10b981" : "#059669",
+      glow: isDark ? "rgba(16,185,129,0.5)" : "rgba(5,150,105,0.3)",
+    },
+    security: {
+      label: "Security",
+      color: isDark ? "#ef4444" : "#dc2626",
+      glow: isDark ? "rgba(239,68,68,0.5)" : "rgba(220,38,38,0.3)",
+    },
   };
 }
 
 /* ─── Physics orb state ──────────────────────────────────────────── */
 
 interface OrbState {
-  x: number; y: number;
-  vx: number; vy: number;
-  baseX: number; baseY: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  baseX: number;
+  baseY: number;
   radius: number;
   skill: Skill;
   index: number;
@@ -34,9 +59,11 @@ interface OrbState {
 
 interface Particle {
   id: number;
-  x: number; y: number;
-  vx: number; vy: number;
-  life: number;   // 0-1
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  life: number; // 0-1
   color: string;
   size: number;
   text?: string;
@@ -46,7 +73,8 @@ interface Particle {
 
 interface ScorePopup {
   id: number;
-  x: number; y: number;
+  x: number;
+  y: number;
   text: string;
   color: string;
 }
@@ -55,12 +83,12 @@ interface ScorePopup {
 
 function getRanks(isDark: boolean) {
   return [
-    { min: 0,    label: "Rookie",    color: isDark ? "#94a3b8" : "#475569" },
-    { min: 200,  label: "Hacker",    color: isDark ? "#06b6d4" : "#0284c7" },
-    { min: 500,  label: "Engineer",  color: isDark ? "#a855f7" : "#7e22ce" },
-    { min: 900,  label: "Architect", color: isDark ? "#f59e0b" : "#d97706" },
-    { min: 1400, label: "Wizard",    color: isDark ? "#ef4444" : "#dc2626" },
-    { min: 2000, label: "Legend",    color: isDark ? "#fbbf24" : "#b45309" },
+    { min: 0, label: "Rookie", color: isDark ? "#94a3b8" : "#475569" },
+    { min: 200, label: "Hacker", color: isDark ? "#06b6d4" : "#0284c7" },
+    { min: 500, label: "Engineer", color: isDark ? "#a855f7" : "#7e22ce" },
+    { min: 900, label: "Architect", color: isDark ? "#f59e0b" : "#d97706" },
+    { min: 1400, label: "Wizard", color: isDark ? "#ef4444" : "#dc2626" },
+    { min: 2000, label: "Legend", color: isDark ? "#fbbf24" : "#b45309" },
   ];
 }
 
@@ -71,8 +99,12 @@ function getRank(xp: number, isDark: boolean) {
 
 /* ─── Canvas renderer ────────────────────────────────────────────── */
 
-function lerp(a: number, b: number, t: number) { return a + (b - a) * t; }
-function clamp(v: number, mn: number, mx: number) { return Math.max(mn, Math.min(mx, v)); }
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
+function clamp(v: number, mn: number, mx: number) {
+  return Math.max(mn, Math.min(mx, v));
+}
 
 /* ─── Main component ─────────────────────────────────────────────── */
 
@@ -81,7 +113,7 @@ export default function SkillsBubbles() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const themeRef = useRef(isDark);
-  
+
   useEffect(() => {
     themeRef.current = isDark;
   }, [isDark]);
@@ -118,17 +150,33 @@ export default function SkillsBubbles() {
     orbsRef.current = skills.map((skill, i) => {
       const col = i % cols;
       const row = Math.floor(i / cols);
-      const r = skill.category === "libraries" ? 54 :
-                skill.category === "language" ? 48 :
-                skill.category === "security" ? 46 :
-                skill.category === "databases" ? 45 : 44;
-      const bx = clamp(cellW * col + cellW / 2 + (Math.random() - 0.5) * cellW * 0.4, r + 4, W - r - 4);
-      const by = clamp(cellH * row + cellH / 2 + (Math.random() - 0.5) * cellH * 0.4, r + 4, H - r - 4);
+      const r =
+        skill.category === "libraries"
+          ? 54
+          : skill.category === "language"
+            ? 48
+            : skill.category === "security"
+              ? 46
+              : skill.category === "databases"
+                ? 45
+                : 44;
+      const bx = clamp(
+        cellW * col + cellW / 2 + (Math.random() - 0.5) * cellW * 0.4,
+        r + 4,
+        W - r - 4,
+      );
+      const by = clamp(
+        cellH * row + cellH / 2 + (Math.random() - 0.5) * cellH * 0.4,
+        r + 4,
+        H - r - 4,
+      );
       return {
-        x: bx, y: by,
+        x: bx,
+        y: by,
         vx: (Math.random() - 0.5) * 0.6,
         vy: (Math.random() - 0.5) * 0.6,
-        baseX: bx, baseY: by,
+        baseX: bx,
+        baseY: by,
         radius: r,
         skill,
         index: i,
@@ -150,7 +198,8 @@ export default function SkillsBubbles() {
       const speed = 2 + Math.random() * 5;
       particlesRef.current.push({
         id: pidRef.current++,
-        x, y,
+        x,
+        y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         life: 1,
@@ -183,7 +232,8 @@ export default function SkillsBubbles() {
     if (!ctxOrNull) return;
     const ctx: CanvasRenderingContext2D = ctxOrNull;
 
-    let W = 0, H = 0;
+    let W = 0,
+      H = 0;
     const resize = () => {
       const dpr = window.devicePixelRatio || 1;
       W = canvas.offsetWidth;
@@ -215,7 +265,7 @@ export default function SkillsBubbles() {
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < MAX_LINK) {
             const alpha = (1 - dist / MAX_LINK) * 0.12;
-            const isChain = (hovIdx === i || hovIdx === j);
+            const isChain = hovIdx === i || hovIdx === j;
             const chainAlpha = isChain ? (1 - dist / MAX_LINK) * 0.55 : alpha;
             const catColor = getCategoryMeta(themeRef.current)[orbs[i].skill.category].color;
             ctx.save();
@@ -284,10 +334,22 @@ export default function SkillsBubbles() {
         o.y += o.vy;
 
         // Boundary bounce
-        if (o.x < o.radius) { o.x = o.radius; o.vx *= -0.5; }
-        if (o.x > W - o.radius) { o.x = W - o.radius; o.vx *= -0.5; }
-        if (o.y < o.radius) { o.y = o.radius; o.vy *= -0.5; }
-        if (o.y > H - o.radius) { o.y = H - o.radius; o.vy *= -0.5; }
+        if (o.x < o.radius) {
+          o.x = o.radius;
+          o.vx *= -0.5;
+        }
+        if (o.x > W - o.radius) {
+          o.x = W - o.radius;
+          o.vx *= -0.5;
+        }
+        if (o.y < o.radius) {
+          o.y = o.radius;
+          o.vy *= -0.5;
+        }
+        if (o.y > H - o.radius) {
+          o.y = H - o.radius;
+          o.vy *= -0.5;
+        }
 
         const meta = getCategoryMeta(themeRef.current)[o.skill.category];
         const isHov = hovIdx === i;
@@ -336,8 +398,18 @@ export default function SkillsBubbles() {
 
         /* base circle */
         const bgGrad = ctx.createRadialGradient(o.x - r * 0.25, o.y - r * 0.25, 0, o.x, o.y, r);
-        bgGrad.addColorStop(0, isHov ? meta.color + (themeRef.current ? "55" : "33") : meta.color + (themeRef.current ? "22" : "11"));
-        bgGrad.addColorStop(0.7, isHov ? meta.color + (themeRef.current ? "33" : "11") : meta.color + (themeRef.current ? "0f" : "05"));
+        bgGrad.addColorStop(
+          0,
+          isHov
+            ? meta.color + (themeRef.current ? "55" : "33")
+            : meta.color + (themeRef.current ? "22" : "11"),
+        );
+        bgGrad.addColorStop(
+          0.7,
+          isHov
+            ? meta.color + (themeRef.current ? "33" : "11")
+            : meta.color + (themeRef.current ? "0f" : "05"),
+        );
         bgGrad.addColorStop(1, "transparent");
 
         // backdrop
@@ -356,14 +428,28 @@ export default function SkillsBubbles() {
         ctx.arc(o.x, o.y, r, 0, Math.PI * 2);
         ctx.strokeStyle = isHov ? meta.color : meta.color + "66";
         ctx.lineWidth = isHov ? 2.5 : 1.5;
-        if (isHov) { ctx.shadowColor = meta.color; ctx.shadowBlur = 18; }
+        if (isHov) {
+          ctx.shadowColor = meta.color;
+          ctx.shadowBlur = 18;
+        }
         ctx.stroke();
         ctx.shadowBlur = 0;
 
         /* glass shimmer */
-        const shimmerGrad = ctx.createLinearGradient(o.x - r, o.y - r, o.x + r * 0.4, o.y + r * 0.4);
-        shimmerGrad.addColorStop(0, themeRef.current ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.6)");
-        shimmerGrad.addColorStop(0.5, themeRef.current ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.2)");
+        const shimmerGrad = ctx.createLinearGradient(
+          o.x - r,
+          o.y - r,
+          o.x + r * 0.4,
+          o.y + r * 0.4,
+        );
+        shimmerGrad.addColorStop(
+          0,
+          themeRef.current ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.6)",
+        );
+        shimmerGrad.addColorStop(
+          0.5,
+          themeRef.current ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.2)",
+        );
         shimmerGrad.addColorStop(1, "transparent");
         ctx.beginPath();
         ctx.arc(o.x, o.y, r * 0.9, 0, Math.PI * 2);
@@ -376,7 +462,7 @@ export default function SkillsBubbles() {
         ctx.textBaseline = "middle";
         ctx.fillStyle = themeRef.current ? "#ffffff" : "#0f172a";
         ctx.fillText(o.skill.name, o.x, o.y + 12);
-        
+
         ctx.font = `${isHov ? 26 : 22}px sans-serif`;
         ctx.fillText(o.skill.icon, o.x, o.y - r * 0.18);
 
@@ -402,7 +488,7 @@ export default function SkillsBubbles() {
           ctx.font = "600 10px Inter, sans-serif";
           ctx.fillStyle = themeRef.current ? "#e2e8f0" : "#475569";
           ctx.textAlign = "center";
-          ctx.fillText("Proficiency", bx + bw/2, by + bh + 14);
+          ctx.fillText("Proficiency", bx + bw / 2, by + bh + 14);
         }
 
         ctx.restore();
@@ -413,7 +499,7 @@ export default function SkillsBubbles() {
       for (const p of particlesRef.current) {
         p.x += p.vx;
         p.y += p.vy;
-        p.vy += 0.08;  // gravity
+        p.vy += 0.08; // gravity
         p.vx *= 0.97;
         p.vy *= 0.97;
         p.life -= 0.03;
@@ -487,36 +573,45 @@ export default function SkillsBubbles() {
   }, []);
 
   /* ── click to explode ── */
-  const handleClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    const rect = canvasRef.current!.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      const rect = canvasRef.current!.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
 
-    for (const o of orbsRef.current) {
-      const dx = o.x - mx;
-      const dy = o.y - my;
-      if (Math.sqrt(dx * dx + dy * dy) < o.radius) {
-        const meta = getCategoryMeta(themeRef.current)[o.skill.category];
-        spawnBurst(o.x, o.y, meta.color);
+      for (const o of orbsRef.current) {
+        const dx = o.x - mx;
+        const dy = o.y - my;
+        if (Math.sqrt(dx * dx + dy * dy) < o.radius) {
+          const meta = getCategoryMeta(themeRef.current)[o.skill.category];
+          spawnBurst(o.x, o.y, meta.color);
 
-        // Knockback velocity
-        o.vx += (Math.random() - 0.5) * 8;
-        o.vy += (Math.random() - 0.5) * 8;
+          // Knockback velocity
+          o.vx += (Math.random() - 0.5) * 8;
+          o.vy += (Math.random() - 0.5) * 8;
 
-        // Score popup
-        const pid = pidRef.current++;
-        setPopups((prev) => [
-          ...prev,
-          { id: pid, x: e.clientX - rect.left, y: e.clientY - rect.top - 20, text: `+${o.skill.xp} XP`, color: meta.color },
-        ]);
-        setTimeout(() => setPopups((prev) => prev.filter((p) => p.id !== pid)), 1100);
+          // Score popup
+          const pid = pidRef.current++;
+          setPopups((prev) => [
+            ...prev,
+            {
+              id: pid,
+              x: e.clientX - rect.left,
+              y: e.clientY - rect.top - 20,
+              text: `+${o.skill.xp} XP`,
+              color: meta.color,
+            },
+          ]);
+          setTimeout(() => setPopups((prev) => prev.filter((p) => p.id !== pid)), 1100);
 
-        setTotalXP((prev) => prev + o.skill.xp);
-        setShowHint(false);
-        break;
+          setTotalXP((prev) => prev + o.skill.xp);
+          setShowHint(false);
+          break;
+        }
       }
-    }
-  }, [spawnBurst]);
+    },
+    [spawnBurst],
+  );
 
   /* ── cursor style ── */
   const [cursor, setCursor] = useState("default");
@@ -532,199 +627,368 @@ export default function SkillsBubbles() {
   return (
     <section id="skills" className="relative py-24 px-4 overflow-hidden">
       {/* Background blob */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
         style={{
           background: "radial-gradient(circle, var(--color-accent) 0%, transparent 70%)",
           opacity: 0.08,
           filter: "blur(60px)",
-        }} />
+        }}
+      />
 
       {/* Heading */}
       <ScrollReveal variant="fade-up" delay={100}>
-      <div style={{ textAlign: "center", marginBottom: "20px", position: "relative", zIndex: 2 }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "10px",
-          background: "color-mix(in srgb, var(--color-cyan) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-cyan) 25%, transparent)",
-          borderRadius: "50px", padding: "4px 16px" }}>
-          <span style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.12em", color: "var(--color-cyan)", fontFamily: "Inter, sans-serif" }}>
-            🎮 INTERACTIVE SKILL TREE
-          </span>
+        <div style={{ textAlign: "center", marginBottom: "20px", position: "relative", zIndex: 2 }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "8px",
+              marginBottom: "10px",
+              background: "color-mix(in srgb, var(--color-cyan) 8%, transparent)",
+              border: "1px solid color-mix(in srgb, var(--color-cyan) 25%, transparent)",
+              borderRadius: "50px",
+              padding: "4px 16px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "11px",
+                fontWeight: 700,
+                letterSpacing: "0.12em",
+                color: "var(--color-cyan)",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              🎮 INTERACTIVE SKILL TREE
+            </span>
+          </div>
+          <h2
+            style={{
+              fontSize: "clamp(2rem,5vw,3.2rem)",
+              fontWeight: 800,
+              margin: 0,
+              background:
+                "linear-gradient(135deg, var(--color-cyan) 0%, var(--color-accent) 50%, var(--color-yellow) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              fontFamily: "Poppins, sans-serif",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            {portfolioData.sectionTitles?.skills || "Skills & Tools"}
+          </h2>
+          <p
+            style={{
+              marginTop: "8px",
+              color: "var(--muted-foreground)",
+              fontSize: "14px",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
+            Hover to explore · Click to collect XP
+          </p>
         </div>
-        <h2 style={{ fontSize: "clamp(2rem,5vw,3.2rem)", fontWeight: 800, margin: 0,
-          background: "linear-gradient(135deg, var(--color-cyan) 0%, var(--color-accent) 50%, var(--color-yellow) 100%)",
-          WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-          fontFamily: "Poppins, sans-serif", letterSpacing: "-0.02em" }}>
-          {portfolioData.sectionTitles?.skills || "Skills & Tools"}
-        </h2>
-        <p style={{ marginTop: "8px", color: "var(--muted-foreground)", fontSize: "14px", fontFamily: "Inter, sans-serif" }}>
-          Hover to explore · Click to collect XP
-        </p>
-      </div>
       </ScrollReveal>
 
       {/* HUD bar */}
       <ScrollReveal variant="fade-up" delay={200}>
-      <div style={{
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        maxWidth: "720px", margin: "0 auto 16px", padding: "10px 20px",
-        background: "color-mix(in srgb, var(--color-cyan) 6%, transparent)", border: "1px solid color-mix(in srgb, var(--color-cyan) 15%, transparent)",
-        borderRadius: "12px", position: "relative", zIndex: 2,
-        fontFamily: "Inter, sans-serif",
-      }}>
-        {/* rank badge */}
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <span style={{
-            fontSize: "11px", fontWeight: 800, letterSpacing: "0.1em",
-            color: rank.color, textShadow: `0 0 12px ${rank.color}`,
-          }}>
-            ◆ {rank.label.toUpperCase()}
-          </span>
-        </div>
-
-        {/* XP bar */}
-        <div style={{ flex: 1, margin: "0 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: "3px" }}>
-          <div style={{ fontSize: "11px", color: isDark ? "#94a3b8" : "#475569", fontWeight: 600 }}>
-            {totalXP} XP collected
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            maxWidth: "720px",
+            margin: "0 auto 16px",
+            padding: "10px 20px",
+            background: "color-mix(in srgb, var(--color-cyan) 6%, transparent)",
+            border: "1px solid color-mix(in srgb, var(--color-cyan) 15%, transparent)",
+            borderRadius: "12px",
+            position: "relative",
+            zIndex: 2,
+            fontFamily: "Inter, sans-serif",
+          }}
+        >
+          {/* rank badge */}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span
+              style={{
+                fontSize: "11px",
+                fontWeight: 800,
+                letterSpacing: "0.1em",
+                color: rank.color,
+                textShadow: `0 0 12px ${rank.color}`,
+              }}
+            >
+              ◆ {rank.label.toUpperCase()}
+            </span>
           </div>
-          <div style={{ width: "100%", height: "6px", background: isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.08)", borderRadius: "3px", overflow: "hidden" }}>
-            {(() => {
-              const ranks = getRanks(isDark);
-              const rankIdx = ranks.findIndex((r) => r.label === rank.label);
-              const nextRank = ranks[rankIdx + 1];
-              const pct = nextRank
-                ? ((totalXP - rank.min) / (nextRank.min - rank.min)) * 100
-                : 100;
-              return (
-                <div style={{
-                  width: `${Math.min(pct, 100)}%`, height: "100%",
-                  background: `linear-gradient(90deg, ${rank.color}, ${ranks[Math.min(rankIdx + 1, ranks.length - 1)].color})`,
-                  transition: "width 0.5s cubic-bezier(0.34,1.56,0.64,1)",
-                  boxShadow: `0 0 8px ${rank.color}`,
-                  borderRadius: "3px",
-                }} />
-              );
-            })()}
-          </div>
-        </div>
 
-        {/* legend dots */}
-        <div style={{ display: "flex", gap: "10px" }}>
-          {Object.entries(currentCatMeta).map(([key, m]) => (
-            <div key={key} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: m.color, boxShadow: `0 0 6px ${m.color}` }} />
-              <span style={{ fontSize: "10px", color: isDark ? "#94a3b8" : "#475569", fontWeight: 600, fontFamily: "Inter, sans-serif" }}>{m.label}</span>
+          {/* XP bar */}
+          <div
+            style={{
+              flex: 1,
+              margin: "0 16px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "3px",
+            }}
+          >
+            <div
+              style={{ fontSize: "11px", color: isDark ? "#94a3b8" : "#475569", fontWeight: 600 }}
+            >
+              {totalXP} XP collected
             </div>
-          ))}
+            <div
+              style={{
+                width: "100%",
+                height: "6px",
+                background: isDark ? "rgba(255,255,255,0.08)" : "rgba(15,23,42,0.08)",
+                borderRadius: "3px",
+                overflow: "hidden",
+              }}
+            >
+              {(() => {
+                const ranks = getRanks(isDark);
+                const rankIdx = ranks.findIndex((r) => r.label === rank.label);
+                const nextRank = ranks[rankIdx + 1];
+                const pct = nextRank
+                  ? ((totalXP - rank.min) / (nextRank.min - rank.min)) * 100
+                  : 100;
+                return (
+                  <div
+                    style={{
+                      width: `${Math.min(pct, 100)}%`,
+                      height: "100%",
+                      background: `linear-gradient(90deg, ${rank.color}, ${ranks[Math.min(rankIdx + 1, ranks.length - 1)].color})`,
+                      transition: "width 0.5s cubic-bezier(0.34,1.56,0.64,1)",
+                      boxShadow: `0 0 8px ${rank.color}`,
+                      borderRadius: "3px",
+                    }}
+                  />
+                );
+              })()}
+            </div>
+          </div>
+
+          {/* legend dots */}
+          <div style={{ display: "flex", gap: "10px" }}>
+            {Object.entries(currentCatMeta).map(([key, m]) => (
+              <div key={key} style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                <div
+                  style={{
+                    width: "8px",
+                    height: "8px",
+                    borderRadius: "50%",
+                    background: m.color,
+                    boxShadow: `0 0 6px ${m.color}`,
+                  }}
+                />
+                <span
+                  style={{
+                    fontSize: "10px",
+                    color: isDark ? "#94a3b8" : "#475569",
+                    fontWeight: 600,
+                    fontFamily: "Inter, sans-serif",
+                  }}
+                >
+                  {m.label}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
       </ScrollReveal>
 
       {/* Canvas */}
       <ScrollReveal variant="scale" delay={300} duration={800}>
-      <div ref={containerRef} style={{ position: "relative", maxWidth: "720px", margin: "0 auto", zIndex: 2 }}>
-        <canvas
-          ref={canvasRef}
-          width={720}
-          height={460}
+        <div
+          ref={containerRef}
+          style={{ position: "relative", maxWidth: "720px", margin: "0 auto", zIndex: 2 }}
+        >
+          <canvas
+            ref={canvasRef}
+            width={720}
+            height={460}
+            style={{
+              width: "100%",
+              height: "clamp(340px, 50vw, 460px)",
+              cursor,
+              borderRadius: "20px",
+              background:
+                "linear-gradient(145deg, rgba(6,182,212,0.04) 0%, rgba(168,85,247,0.04) 50%, rgba(15,23,42,0.0) 100%)",
+              border: "1px solid rgba(6,182,212,0.12)",
+              display: "block",
+              touchAction: "none",
+              userSelect: "none",
+              WebkitUserSelect: "none",
+            }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+            onMouseDown={(e) => e.preventDefault()}
+            onTouchStart={(e) => {
+              // Prevent scrolling when interacting with canvas on touch devices
+              if (e.cancelable) e.preventDefault();
+            }}
+            onDragStart={(e) => e.preventDefault()}
+          />
+
+          {/* Score popups (DOM layer) */}
+          {popups.map((p) => (
+            <div
+              key={p.id}
+              style={{
+                position: "absolute",
+                left: p.x,
+                top: p.y,
+                pointerEvents: "none",
+                zIndex: 99,
+                color: p.color,
+                fontWeight: 800,
+                fontSize: "15px",
+                fontFamily: "Inter, sans-serif",
+                textShadow: `0 0 12px ${p.color}`,
+                animation: "skillXpFloat 1.1s ease-out forwards",
+              }}
+            >
+              {p.text}
+            </div>
+          ))}
+
+          {/* Hint */}
+          {showHint && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: "14px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                background: "rgba(6,182,212,0.1)",
+                border: "1px solid rgba(6,182,212,0.25)",
+                borderRadius: "8px",
+                padding: "6px 14px",
+                fontSize: "11px",
+                color: "#7dd3fc",
+                fontFamily: "Inter, sans-serif",
+                fontWeight: 600,
+                pointerEvents: "none",
+                whiteSpace: "nowrap",
+                animation: "skillPulseHint 2s ease-in-out infinite",
+              }}
+            >
+              👆 Click any skill to earn XP!
+            </div>
+          )}
+        </div>
+
+        {/* Skill detail tooltip panel (wrapped in fixed height container to prevent layout shifts) */}
+        <div
           style={{
-            width: "100%", height: "clamp(340px, 50vw, 460px)",
-            cursor,
-            borderRadius: "20px",
-            background: "linear-gradient(145deg, rgba(6,182,212,0.04) 0%, rgba(168,85,247,0.04) 50%, rgba(15,23,42,0.0) 100%)",
-            border: "1px solid rgba(6,182,212,0.12)",
-            display: "block",
-            touchAction: "none",
-            userSelect: "none",
-            WebkitUserSelect: "none",
+            minHeight: "84px",
+            maxWidth: "720px",
+            margin: "14px auto 0",
+            position: "relative",
+            zIndex: 2,
           }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleClick}
-          onMouseDown={(e) => e.preventDefault()}
-          onTouchStart={(e) => {
-            // Prevent scrolling when interacting with canvas on touch devices
-            if (e.cancelable) e.preventDefault();
-          }}
-          onDragStart={(e) => e.preventDefault()}
-        />
-
-        {/* Score popups (DOM layer) */}
-        {popups.map((p) => (
-          <div key={p.id} style={{
-            position: "absolute", left: p.x, top: p.y,
-            pointerEvents: "none", zIndex: 99,
-            color: p.color, fontWeight: 800, fontSize: "15px",
-            fontFamily: "Inter, sans-serif",
-            textShadow: `0 0 12px ${p.color}`,
-            animation: "skillXpFloat 1.1s ease-out forwards",
-          }}>
-            {p.text}
-          </div>
-        ))}
-
-        {/* Hint */}
-        {showHint && (
-          <div style={{
-            position: "absolute", bottom: "14px", left: "50%", transform: "translateX(-50%)",
-            background: "rgba(6,182,212,0.1)", border: "1px solid rgba(6,182,212,0.25)",
-            borderRadius: "8px", padding: "6px 14px",
-            fontSize: "11px", color: "#7dd3fc", fontFamily: "Inter, sans-serif", fontWeight: 600,
-            pointerEvents: "none", whiteSpace: "nowrap",
-            animation: "skillPulseHint 2s ease-in-out infinite",
-          }}>
-            👆 Click any skill to earn XP!
-          </div>
-        )}
-      </div>
-
-      {/* Skill detail tooltip panel (wrapped in fixed height container to prevent layout shifts) */}
-      <div style={{ minHeight: "84px", maxWidth: "720px", margin: "14px auto 0", position: "relative", zIndex: 2 }}>
-        {hoveredSkill && hovMeta && (
-          <div style={{
-            display: "flex", alignItems: "center", gap: "14px",
-            padding: "12px 20px",
-            background: `linear-gradient(135deg, ${hovMeta.color}18 0%, rgba(15,23,42,0.6) 100%)`,
-            border: `1px solid ${hovMeta.color}44`,
-            borderRadius: "12px",
-            backdropFilter: "blur(12px)",
-            animation: "skillFadeIn 0.2s ease",
-            fontFamily: "Inter, sans-serif",
-          }}>
-            <span style={{ fontSize: "28px" }}>{hoveredSkill.icon}</span>
-            <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                <span style={{ fontSize: "15px", fontWeight: 700, color: "#f1f5f9", fontFamily: "Poppins, sans-serif" }}>
-                  {hoveredSkill.name}
-                </span>
-                <span style={{
-                  fontSize: "10px", fontWeight: 700, letterSpacing: "0.08em",
-                  padding: "2px 8px", borderRadius: "50px",
-                  background: `${hovMeta.color}22`, border: `1px solid ${hovMeta.color}55`,
-                  color: hovMeta.color,
-                }}>{hovMeta.label}</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div style={{ flex: 1, height: "4px", background: "rgba(255,255,255,0.08)", borderRadius: "2px", overflow: "hidden" }}>
-                  <div style={{
-                    width: `${hoveredSkill.level}%`, height: "100%",
-                    background: `linear-gradient(90deg, ${hovMeta.color}, ${hovMeta.color}bb)`,
-                    boxShadow: `0 0 6px ${hovMeta.color}`,
-                    borderRadius: "2px",
-                    transition: "width 0.4s cubic-bezier(0.34,1.56,0.64,1)",
-                  }} />
+        >
+          {hoveredSkill && hovMeta && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "14px",
+                padding: "12px 20px",
+                background: `linear-gradient(135deg, ${hovMeta.color}18 0%, rgba(15,23,42,0.6) 100%)`,
+                border: `1px solid ${hovMeta.color}44`,
+                borderRadius: "12px",
+                backdropFilter: "blur(12px)",
+                animation: "skillFadeIn 0.2s ease",
+                fontFamily: "Inter, sans-serif",
+              }}
+            >
+              <span style={{ fontSize: "28px" }}>{hoveredSkill.icon}</span>
+              <div style={{ flex: 1 }}>
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}
+                >
+                  <span
+                    style={{
+                      fontSize: "15px",
+                      fontWeight: 700,
+                      color: "#f1f5f9",
+                      fontFamily: "Poppins, sans-serif",
+                    }}
+                  >
+                    {hoveredSkill.name}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      padding: "2px 8px",
+                      borderRadius: "50px",
+                      background: `${hovMeta.color}22`,
+                      border: `1px solid ${hovMeta.color}55`,
+                      color: hovMeta.color,
+                    }}
+                  >
+                    {hovMeta.label}
+                  </span>
                 </div>
-                <span style={{ fontSize: "12px", fontWeight: 700, color: hovMeta.color, minWidth: "36px" }}>
-                  {hoveredSkill.level}%
-                </span>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div
+                    style={{
+                      flex: 1,
+                      height: "4px",
+                      background: "rgba(255,255,255,0.08)",
+                      borderRadius: "2px",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${hoveredSkill.level}%`,
+                        height: "100%",
+                        background: `linear-gradient(90deg, ${hovMeta.color}, ${hovMeta.color}bb)`,
+                        boxShadow: `0 0 6px ${hovMeta.color}`,
+                        borderRadius: "2px",
+                        transition: "width 0.4s cubic-bezier(0.34,1.56,0.64,1)",
+                      }}
+                    />
+                  </div>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontWeight: 700,
+                      color: hovMeta.color,
+                      minWidth: "36px",
+                    }}
+                  >
+                    {hoveredSkill.level}%
+                  </span>
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div
+                  style={{
+                    fontSize: "10px",
+                    color: "#64748b",
+                    fontWeight: 600,
+                    marginBottom: "2px",
+                  }}
+                >
+                  CLICK TO EARN
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: 800, color: hovMeta.color }}>
+                  +{hoveredSkill.xp} XP
+                </div>
               </div>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ fontSize: "10px", color: "#64748b", fontWeight: 600, marginBottom: "2px" }}>CLICK TO EARN</div>
-              <div style={{ fontSize: "16px", fontWeight: 800, color: hovMeta.color }}>+{hoveredSkill.xp} XP</div>
-            </div>
-          </div>
-        )}
-      </div>
-
+          )}
+        </div>
       </ScrollReveal>
 
       {/* Static Skills List for clear view */}
@@ -733,44 +997,59 @@ export default function SkillsBubbles() {
           {(["language", "libraries", "tools", "databases", "security"] as const).map((catKey) => {
             const meta = currentCatMeta[catKey];
             const catSkills = skillsRef.current.filter((s) => s.category === catKey);
-            
+
             if (catSkills.length === 0) return null;
-            
+
             return (
-              <div 
-                key={catKey} 
+              <div
+                key={catKey}
                 className="glass p-6 rounded-2xl border border-border/50 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.3)]"
-                style={{ '--hover-color': meta.color } as React.CSSProperties}
+                style={{ "--hover-color": meta.color } as React.CSSProperties}
               >
-                <div style={{ color: meta.color }} className="text-[11px] font-bold tracking-wider uppercase mb-5 flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: meta.color, boxShadow: `0 0 8px ${meta.color}` }} />
+                <div
+                  style={{ color: meta.color }}
+                  className="text-[11px] font-bold tracking-wider uppercase mb-5 flex items-center gap-2"
+                >
+                  <div
+                    className="w-2.5 h-2.5 rounded-full"
+                    style={{ background: meta.color, boxShadow: `0 0 8px ${meta.color}` }}
+                  />
                   {meta.label}
                 </div>
-                
+
                 <div className="flex flex-col gap-4">
-                  {catSkills.sort((a,b) => b.level - a.level).map((s, i) => (
-                    <div key={i} className="flex items-center gap-3 group/skill">
-                      <div className="w-9 h-9 shrink-0 rounded-full bg-background/50 flex items-center justify-center text-lg border border-border/50 group-hover/skill:scale-110 transition-all duration-300 shadow-sm">
-                        {s.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between mb-1.5">
-                          <div className="text-sm font-semibold text-primary truncate pr-2">{s.name}</div>
-                          <div className="text-[10px] font-bold opacity-60" style={{ color: meta.color }}>{s.level}%</div>
+                  {catSkills
+                    .sort((a, b) => b.level - a.level)
+                    .map((s, i) => (
+                      <div key={i} className="flex items-center gap-3 group/skill">
+                        <div className="w-9 h-9 shrink-0 rounded-full bg-background/50 flex items-center justify-center text-lg border border-border/50 group-hover/skill:scale-110 transition-all duration-300 shadow-sm">
+                          {s.icon}
                         </div>
-                        <div className="w-full h-1.5 bg-black/10 dark:bg-white/5 rounded-full overflow-hidden">
-                          <div 
-                            className="h-full rounded-full transition-all duration-1000 origin-left scale-x-0 group-hover/skill:scale-x-100"
-                            style={{ 
-                              width: `${s.level}%`, 
-                              background: `linear-gradient(90deg, ${meta.color}99, ${meta.color})`,
-                              transform: 'scaleX(1)', // Start expanded
-                            }}
-                          />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between mb-1.5">
+                            <div className="text-sm font-semibold text-primary truncate pr-2">
+                              {s.name}
+                            </div>
+                            <div
+                              className="text-[10px] font-bold opacity-60"
+                              style={{ color: meta.color }}
+                            >
+                              {s.level}%
+                            </div>
+                          </div>
+                          <div className="w-full h-1.5 bg-black/10 dark:bg-white/5 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full transition-all duration-1000 origin-left scale-x-0 group-hover/skill:scale-x-100"
+                              style={{
+                                width: `${s.level}%`,
+                                background: `linear-gradient(90deg, ${meta.color}99, ${meta.color})`,
+                                transform: "scaleX(1)", // Start expanded
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </div>
             );

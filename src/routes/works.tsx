@@ -54,7 +54,12 @@ function WorksPage() {
                 <FolderGit2 className="h-8 w-8 text-indigo-500" />
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight font-poppins">
                   {portfolioData.sectionTitles?.works || (
-                    <>All <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">Works</span></>
+                    <>
+                      All{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500">
+                        Works
+                      </span>
+                    </>
                   )}
                 </h1>
               </div>
@@ -78,7 +83,9 @@ function WorksPage() {
             <div className="flex flex-col items-center justify-center py-32 rounded-3xl border border-dashed border-border/50 bg-card/30 backdrop-blur-sm text-center">
               <FolderGit2 className="h-16 w-16 text-muted-foreground/30 mb-4" />
               <p className="text-xl font-semibold text-muted-foreground mb-2">No projects yet</p>
-              <p className="text-muted-foreground/60 max-w-sm">Check back later for new works and experiments.</p>
+              <p className="text-muted-foreground/60 max-w-sm">
+                Check back later for new works and experiments.
+              </p>
             </div>
           </ScrollReveal>
         ) : (
@@ -89,7 +96,11 @@ function WorksPage() {
                   className="rounded-2xl p-6 h-80 flex flex-col justify-between text-primary relative overflow-hidden group transition-all duration-500 hover:translate-y-[-4px] hover:shadow-[0_20px_60px_-16px_rgba(0,0,0,0.3)] border border-border/30"
                   style={
                     w.image
-                      ? { backgroundImage: `url(${w.image})`, backgroundSize: "cover", backgroundPosition: "center" }
+                      ? {
+                          backgroundImage: `url(${w.image})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                        }
                       : { background: worksColors[i % worksColors.length] }
                   }
                 >
@@ -116,15 +127,18 @@ function WorksPage() {
                       {w.title}
                     </h3>
                     {w.tag && (
-                      <p className="text-sm mt-2 text-white/90 drop-shadow line-clamp-3">
-                        {w.tag}
-                      </p>
+                      <p className="text-sm mt-2 text-white/90 drop-shadow line-clamp-3">{w.tag}</p>
                     )}
                   </div>
 
                   <div className="relative z-10 self-end mt-4">
                     {w.link ? (
-                      <a href={w.link} target="_blank" rel="noreferrer" className="grid h-12 w-12 place-items-center rounded-full bg-black/20 backdrop-blur-md border border-white/20 text-white transition-all duration-300 hover:scale-110 hover:bg-white hover:text-black shadow-lg">
+                      <a
+                        href={w.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="grid h-12 w-12 place-items-center rounded-full bg-black/20 backdrop-blur-md border border-white/20 text-white transition-all duration-300 hover:scale-110 hover:bg-white hover:text-black shadow-lg"
+                      >
                         <ArrowUpRight className="h-5 w-5 transition-transform duration-300 group-hover:rotate-45" />
                       </a>
                     ) : (

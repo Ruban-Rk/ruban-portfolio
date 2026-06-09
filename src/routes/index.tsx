@@ -38,7 +38,9 @@ import { useComments } from "@/hooks/use-comments";
 const SkillsBubbles = lazy(() => import("@/components/SkillsBubbles"));
 const MatrixRain = lazy(() => import("@/components/MatrixRain"));
 const CommentsSection = lazy(() => import("@/components/CommentsSection"));
-const BadgesSection = lazy(() => import("@/components/BadgesSection").then((m) => ({ default: m.BadgesSection })));
+const BadgesSection = lazy(() =>
+  import("@/components/BadgesSection").then((m) => ({ default: m.BadgesSection })),
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -52,7 +54,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Ruban Kumar R — Portfolio" },
       {
         property: "og:description",
-        content: "AI & Data Science undergraduate exploring Linux, cybersecurity, and machine learning.",
+        content:
+          "AI & Data Science undergraduate exploring Linux, cybersecurity, and machine learning.",
       },
     ],
   }),
@@ -68,11 +71,7 @@ const navLinks = [
 ];
 
 const SERVICE_ICONS = [Terminal, Shield, Brain];
-const SERVICE_COLORS = [
-  "var(--color-accent)",
-  "var(--color-yellow)",
-  "var(--color-coral)",
-];
+const SERVICE_COLORS = ["var(--color-accent)", "var(--color-yellow)", "var(--color-coral)"];
 
 /* ─── Hidden admin trigger: triple-click the logo ──────────────── */
 function useHiddenAdminTrigger() {
@@ -169,7 +168,11 @@ function Nav() {
     <header className="sticky top-0 z-50 glass rounded-b-2xl mx-2 md:mx-4 flex items-center justify-between px-4 py-3 md:px-14 md:py-5 transition-all duration-300">
       <a
         href="#home"
-        onClick={(e) => { e.preventDefault(); handleLogoClick(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+        onClick={(e) => {
+          e.preventDefault();
+          handleLogoClick();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
         className="font-script text-3xl md:text-4xl text-primary transition-transform duration-300 hover:scale-105 z-50 select-none"
         style={{ fontFamily: "Caveat, cursive", cursor: "pointer" }}
         title="Home"
@@ -194,12 +197,28 @@ function Nav() {
             padding: "4px 14px",
           }}
         >
-          <span style={{ fontSize: "11px", fontWeight: 700, color: "#c4b5fd", letterSpacing: "0.1em", fontFamily: "Inter, sans-serif" }}>
+          <span
+            style={{
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#c4b5fd",
+              letterSpacing: "0.1em",
+              fontFamily: "Inter, sans-serif",
+            }}
+          >
             ⚙️ ADMIN MODE
           </span>
           <button
             onClick={logout}
-            style={{ background: "none", border: "none", color: "#f87171", cursor: "pointer", fontSize: "11px", fontWeight: 600, fontFamily: "Inter, sans-serif" }}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#f87171",
+              cursor: "pointer",
+              fontSize: "11px",
+              fontWeight: 600,
+              fontFamily: "Inter, sans-serif",
+            }}
           >
             (logout)
           </button>
@@ -259,7 +278,9 @@ function Nav() {
             }}
           >
             <Eye style={{ width: 13, height: 13 }} />
-            <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: "12px" }}>
+            <span
+              style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: "12px" }}
+            >
               {viewCount.toLocaleString()}
             </span>
           </a>
@@ -310,7 +331,7 @@ function InteractivePhone({ variant = "nav" }: { variant?: "nav" | "footer" }) {
   const { portfolioData } = useAdmin();
   const phone = portfolioData.hero.phone;
   const cleanPhone = phone.replace(/\s/g, "");
-  
+
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -338,7 +359,7 @@ function InteractivePhone({ variant = "nav" }: { variant?: "nav" | "footer" }) {
   if (variant === "footer") {
     return (
       <div className="relative inline-block" ref={menuRef}>
-        <button 
+        <button
           onClick={() => setIsOpen(!isOpen)}
           className="hover:text-[var(--color-accent)] transition-colors duration-300"
         >
@@ -347,19 +368,40 @@ function InteractivePhone({ variant = "nav" }: { variant?: "nav" | "footer" }) {
         {isOpen && (
           <div className="absolute right-0 bottom-full mb-2 w-48 bg-card border border-border/50 shadow-[0_10px_30px_rgba(0,0,0,0.5)] rounded-xl overflow-hidden z-50 animate-in fade-in slide-in-from-bottom-2">
             <div className="flex flex-col py-1">
-              <button onClick={handleCopy} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors text-left w-full">
-                {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-muted-foreground" />}
+              <button
+                onClick={handleCopy}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors text-left w-full"
+              >
+                {copied ? (
+                  <Check className="w-4 h-4 text-green-400" />
+                ) : (
+                  <Copy className="w-4 h-4 text-muted-foreground" />
+                )}
                 <span>{copied ? "Copied!" : "Copy Number"}</span>
               </button>
-              <a href={`tel:${cleanPhone}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full">
+              <a
+                href={`tel:${cleanPhone}`}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full"
+              >
                 <Phone className="w-4 h-4 text-blue-500" />
                 <span>Dial Number</span>
               </a>
-              <a href={`https://wa.me/${cleanPhone.replace("+", "")}`} target="_blank" rel="noreferrer" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full">
+              <a
+                href={`https://wa.me/${cleanPhone.replace("+", "")}`}
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full"
+              >
                 <MessageCircle className="w-4 h-4 text-green-500" />
                 <span>WhatsApp</span>
               </a>
-              <a href={`sms:${cleanPhone}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full">
+              <a
+                href={`sms:${cleanPhone}`}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full"
+              >
                 <MessageSquare className="w-4 h-4 text-blue-400" />
                 <span>Text Message</span>
               </a>
@@ -372,8 +414,8 @@ function InteractivePhone({ variant = "nav" }: { variant?: "nav" | "footer" }) {
 
   return (
     <div className="relative hidden md:block" ref={menuRef}>
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
+      <button
+        onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-3 text-sm font-semibold text-primary group"
       >
         <span className="group-hover:text-blue-500 transition-colors duration-300">{phone}</span>
@@ -385,29 +427,54 @@ function InteractivePhone({ variant = "nav" }: { variant?: "nav" | "footer" }) {
       {isOpen && (
         <div className="absolute right-0 top-full mt-3 w-56 bg-card border border-border/50 shadow-[0_10px_40px_rgba(0,0,0,0.5)] rounded-2xl overflow-hidden z-50 animate-in fade-in slide-in-from-top-2">
           <div className="p-3 border-b border-border/50 bg-background/50">
-            <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-1">Contact via</p>
+            <p className="text-xs font-semibold text-muted-foreground tracking-wider uppercase mb-1">
+              Contact via
+            </p>
             <p className="font-mono text-sm">{phone}</p>
           </div>
           <div className="flex flex-col py-2">
-            <button onClick={handleCopy} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors text-left w-full group">
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors text-left w-full group"
+            >
               <span className="grid h-7 w-7 place-items-center rounded-full bg-white/5 group-hover:bg-white/10 transition-colors">
-                {copied ? <Check className="w-3.5 h-3.5 text-green-400" /> : <Copy className="w-3.5 h-3.5 text-muted-foreground" />}
+                {copied ? (
+                  <Check className="w-3.5 h-3.5 text-green-400" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 text-muted-foreground" />
+                )}
               </span>
-              <span className="font-medium">{copied ? "Copied to clipboard!" : "Copy to Clipboard"}</span>
+              <span className="font-medium">
+                {copied ? "Copied to clipboard!" : "Copy to Clipboard"}
+              </span>
             </button>
-            <a href={`tel:${cleanPhone}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full group">
+            <a
+              href={`tel:${cleanPhone}`}
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full group"
+            >
               <span className="grid h-7 w-7 place-items-center rounded-full bg-blue-500/20 text-blue-500 group-hover:bg-blue-500 group-hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5" />
               </span>
               <span className="font-medium">Dial Number</span>
             </a>
-            <a href={`https://wa.me/${cleanPhone.replace("+", "")}`} target="_blank" rel="noreferrer" onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full group">
+            <a
+              href={`https://wa.me/${cleanPhone.replace("+", "")}`}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full group"
+            >
               <span className="grid h-7 w-7 place-items-center rounded-full bg-green-500/20 text-green-500 group-hover:bg-green-500 group-hover:text-black transition-colors">
                 <MessageCircle className="w-3.5 h-3.5" />
               </span>
               <span className="font-medium">WhatsApp Message</span>
             </a>
-            <a href={`sms:${cleanPhone}`} onClick={() => setIsOpen(false)} className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full group">
+            <a
+              href={`sms:${cleanPhone}`}
+              onClick={() => setIsOpen(false)}
+              className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5 transition-colors w-full group"
+            >
               <span className="grid h-7 w-7 place-items-center rounded-full bg-blue-400/20 text-blue-400 group-hover:bg-blue-400 group-hover:text-black transition-colors">
                 <MessageSquare className="w-3.5 h-3.5" />
               </span>
@@ -549,7 +616,9 @@ function HelpSection() {
       className="grid gap-10 px-6 py-16 md:grid-cols-2 md:px-14 md:py-24 bg-[var(--color-card)]"
     >
       <ScrollReveal variant="fade-right" className="space-y-5" stagger={150}>
-        <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-8">{portfolioData.sectionTitles?.services || "My Services"}</h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-8">
+          {portfolioData.sectionTitles?.services || "My Services"}
+        </h2>
         {services.map(({ title, count }, idx) => {
           const Icon = SERVICE_ICONS[idx % SERVICE_ICONS.length];
           const color = SERVICE_COLORS[idx % SERVICE_COLORS.length];
@@ -575,7 +644,9 @@ function HelpSection() {
 
       <div>
         <ScrollReveal variant="fade-left">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.about || "What do I do?"}</h2>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-primary">
+            {portfolioData.sectionTitles?.about || "What do I do?"}
+          </h2>
         </ScrollReveal>
         <ScrollReveal variant="fade-up" delay={200}>
           <p className="mt-6 text-muted-foreground leading-relaxed">{about.description1}</p>
@@ -583,12 +654,20 @@ function HelpSection() {
         </ScrollReveal>
         <ScrollReveal variant="fade-up" delay={400} className="mt-10 flex gap-12">
           <div className="group">
-            <div className="text-5xl font-extrabold text-gradient transition-transform duration-300 group-hover:scale-110 origin-left">{about.projectCount}</div>
-            <div className="mt-1 text-xs font-semibold tracking-wider text-muted-foreground">MINI PROJECTS</div>
+            <div className="text-5xl font-extrabold text-gradient transition-transform duration-300 group-hover:scale-110 origin-left">
+              {about.projectCount}
+            </div>
+            <div className="mt-1 text-xs font-semibold tracking-wider text-muted-foreground">
+              MINI PROJECTS
+            </div>
           </div>
           <div className="group">
-            <div className="text-5xl font-extrabold text-gradient transition-transform duration-300 group-hover:scale-110 origin-left">{about.certCount}</div>
-            <div className="mt-1 text-xs font-semibold tracking-wider text-muted-foreground">CERTIFICATIONS</div>
+            <div className="text-5xl font-extrabold text-gradient transition-transform duration-300 group-hover:scale-110 origin-left">
+              {about.certCount}
+            </div>
+            <div className="mt-1 text-xs font-semibold tracking-wider text-muted-foreground">
+              CERTIFICATIONS
+            </div>
           </div>
         </ScrollReveal>
       </div>
@@ -598,11 +677,7 @@ function HelpSection() {
 
 /* ─── Experience timeline ───────────────────────────────────────────── */
 
-const timelineColors = [
-  "var(--color-accent)",
-  "var(--color-coral)",
-  "var(--color-yellow)",
-];
+const timelineColors = ["var(--color-accent)", "var(--color-coral)", "var(--color-yellow)"];
 
 const LINK_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   linkedin: Linkedin,
@@ -675,7 +750,9 @@ function Experience() {
   return (
     <section id="experience" className="px-6 py-16 md:px-14 md:py-24">
       <ScrollReveal variant="fade-up">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-12">{portfolioData.sectionTitles?.timeline || "My Experience"}</h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-primary mb-12">
+          {portfolioData.sectionTitles?.timeline || "My Experience"}
+        </h2>
       </ScrollReveal>
       <div className="space-y-12">
         {timeline.map((t, i) => (
@@ -692,11 +769,17 @@ function Experience() {
                 <div className="md:col-span-1 hidden md:flex justify-center">
                   <div
                     className="mt-2 h-4 w-4 rounded-full border-2 border-dashed transition-all duration-500 hover:scale-150"
-                    style={{ borderColor: timelineColors[i % timelineColors.length], background: "transparent" }}
+                    style={{
+                      borderColor: timelineColors[i % timelineColors.length],
+                      background: "transparent",
+                    }}
                   >
                     <div
                       className="h-full w-full rounded-full"
-                      style={{ background: timelineColors[i % timelineColors.length], transform: "scale(0.5)" }}
+                      style={{
+                        background: timelineColors[i % timelineColors.length],
+                        transform: "scale(0.5)",
+                      }}
                     />
                   </div>
                 </div>
@@ -709,9 +792,11 @@ function Experience() {
                   {/* Links row */}
                   {t.links && t.links.length > 0 && (
                     <div className="flex flex-wrap gap-2 pt-1">
-                      {t.links.filter((l) => l.url).map((l, li) => (
-                        <TimelineLinkBadge key={li} type={l.type} url={l.url} label={l.label} />
-                      ))}
+                      {t.links
+                        .filter((l) => l.url)
+                        .map((l, li) => (
+                          <TimelineLinkBadge key={li} type={l.type} url={l.url} label={l.label} />
+                        ))}
                     </div>
                   )}
                 </div>
@@ -739,11 +824,7 @@ function Experience() {
 
 /* ─── Latest Works with glassmorphism cards ─────────────────────── */
 
-const worksColors = [
-  "var(--color-yellow)",
-  "var(--color-accent)",
-  "var(--color-coral)",
-];
+const worksColors = ["var(--color-yellow)", "var(--color-accent)", "var(--color-coral)"];
 
 function LatestWorks() {
   const { portfolioData } = useAdmin();
@@ -756,7 +837,9 @@ function LatestWorks() {
       <ScrollReveal variant="fade-up">
         <div className="flex items-end justify-between mb-10">
           <div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.works || "My Latest Works"}</h2>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">
+              {portfolioData.sectionTitles?.works || "My Latest Works"}
+            </h2>
             <p className="mt-3 text-muted-foreground">A peek at what I'm currently building.</p>
           </div>
           <div className="hidden md:flex items-center gap-6">
@@ -764,7 +847,8 @@ function LatestWorks() {
               to="/works"
               className="inline-flex items-center gap-2 text-[var(--color-accent)] font-semibold underline-offset-4 hover:underline transition-all duration-300 hover:gap-3"
             >
-              View All <ArrowUpRight className="h-4 w-4 transition-transform duration-300 hover:translate-x-0.5 hover:-translate-y-0.5" />
+              View All{" "}
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 hover:translate-x-0.5 hover:-translate-y-0.5" />
             </Link>
             <a
               href={hero.githubUrl}
@@ -772,7 +856,8 @@ function LatestWorks() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 text-[var(--color-coral)] font-semibold underline-offset-4 hover:underline transition-all duration-300 hover:gap-3"
             >
-              Explore More on GitHub <ArrowUpRight className="h-4 w-4 transition-transform duration-300 hover:translate-x-0.5 hover:-translate-y-0.5" />
+              Explore More on GitHub{" "}
+              <ArrowUpRight className="h-4 w-4 transition-transform duration-300 hover:translate-x-0.5 hover:-translate-y-0.5" />
             </a>
           </div>
         </div>
@@ -785,7 +870,11 @@ function LatestWorks() {
             className="rounded-2xl p-6 h-72 flex flex-col justify-between text-primary relative overflow-hidden group transition-all duration-500 hover:translate-y-[-4px] hover:shadow-[0_20px_60px_-16px_rgba(0,0,0,0.3)]"
             style={
               w.image
-                ? { backgroundImage: `url(${w.image})`, backgroundSize: "cover", backgroundPosition: "center" }
+                ? {
+                    backgroundImage: `url(${w.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }
                 : { background: worksColors[i % worksColors.length] }
             }
           >
@@ -803,11 +892,18 @@ function LatestWorks() {
             <div className="absolute inset-0 bg-white/0 backdrop-blur-0 transition-all duration-500 group-hover:bg-white/10 group-hover:backdrop-blur-[2px] rounded-2xl" />
             <div className="relative z-10">
               <p className="text-xs font-bold tracking-wider opacity-70">{w.tag}</p>
-              <h3 className="mt-2 text-2xl font-bold transition-transform duration-300 group-hover:translate-x-1">{w.title}</h3>
+              <h3 className="mt-2 text-2xl font-bold transition-transform duration-300 group-hover:translate-x-1">
+                {w.title}
+              </h3>
             </div>
             <div className="relative z-10 self-end">
               {w.link ? (
-                <a href={w.link} target="_blank" rel="noreferrer" className="grid h-10 w-10 place-items-center rounded-full bg-card glass transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_16px_oklch(0.55_0.09_190_/_0.3)]">
+                <a
+                  href={w.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="grid h-10 w-10 place-items-center rounded-full bg-card glass transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_16px_oklch(0.55_0.09_190_/_0.3)]"
+                >
                   <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
                 </a>
               ) : (
@@ -885,16 +981,23 @@ function MomentsPreview() {
           <div>
             <div className="flex items-center gap-2 mb-3">
               <Camera className="h-5 w-5 text-[var(--color-accent)]" />
-              <span className="text-xs font-bold tracking-widest text-[var(--color-accent)] uppercase">Gallery</span>
+              <span className="text-xs font-bold tracking-widest text-[var(--color-accent)] uppercase">
+                Gallery
+              </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.moments || "My Moments"}</h2>
-            <p className="mt-3 text-muted-foreground">Favourite memories, meetups and events captured.</p>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-primary">
+              {portfolioData.sectionTitles?.moments || "My Moments"}
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Favourite memories, meetups and events captured.
+            </p>
           </div>
           <Link
             to="/moments"
             className="hidden md:inline-flex items-center gap-2 text-[var(--color-coral)] font-semibold underline-offset-4 hover:underline transition-all duration-300 hover:gap-3"
           >
-            View All <ArrowUpRight className="h-4 w-4 transition-transform duration-300 hover:translate-x-0.5 hover:-translate-y-0.5" />
+            View All{" "}
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 hover:translate-x-0.5 hover:-translate-y-0.5" />
           </Link>
         </div>
       </ScrollReveal>
@@ -933,93 +1036,94 @@ function MomentsPreview() {
         <div className="relative z-10 w-full overflow-hidden flex items-center py-4 -mx-6 md:-mx-14 px-6 md:px-14">
           <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-20 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-20 pointer-events-none" />
-          
+
           <ScrollReveal variant="fade-up" delay={100} className="w-full">
             <div className="moment-marquee-track">
-              {[...moments, ...moments, ...moments, ...moments, ...moments, ...moments].map((moment, i) => {
-            const coverImg = moment.images[moment.coverIndex] ?? moment.images[0];
-            const formattedDate = moment.date
-              ? new Date(moment.date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })
-              : "";
+              {[...moments, ...moments, ...moments, ...moments, ...moments, ...moments].map(
+                (moment, i) => {
+                  const coverImg = moment.images[moment.coverIndex] ?? moment.images[0];
+                  const formattedDate = moment.date
+                    ? new Date(moment.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })
+                    : "";
 
-            return (
-              <article
-                key={`${moment.id}-${i}`}
-                className="w-[320px] md:w-[350px] flex-shrink-0 rounded-2xl overflow-hidden glass transition-all duration-500 hover:translate-y-[-4px] hover:shadow-[0_20px_60px_-16px_rgba(0,0,0,0.25)] group flex flex-col"
-              >
-                {/* Cover image or placeholder */}
-                <div
-                  className="relative overflow-hidden"
-                  style={{ height: 200 }}
-                >
-                  {coverImg ? (
-                    <img
-                      src={coverImg}
-                      alt={moment.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div
-                      className="w-full h-full flex items-center justify-center"
-                      style={{
-                        background: [
-                          "linear-gradient(135deg,rgba(99,102,241,0.25),rgba(14,165,233,0.18))",
-                          "linear-gradient(135deg,rgba(236,72,153,0.25),rgba(251,146,60,0.18))",
-                          "linear-gradient(135deg,rgba(34,197,94,0.25),rgba(250,204,21,0.18))",
-                        ][i % 3],
-                      }}
+                  return (
+                    <article
+                      key={`${moment.id}-${i}`}
+                      className="w-[320px] md:w-[350px] flex-shrink-0 rounded-2xl overflow-hidden glass transition-all duration-500 hover:translate-y-[-4px] hover:shadow-[0_20px_60px_-16px_rgba(0,0,0,0.25)] group flex flex-col"
                     >
-                      <Camera className="h-12 w-12 opacity-30 text-primary" />
-                    </div>
-                  )}
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
+                      {/* Cover image or placeholder */}
+                      <div className="relative overflow-hidden" style={{ height: 200 }}>
+                        {coverImg ? (
+                          <img
+                            src={coverImg}
+                            alt={moment.title}
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div
+                            className="w-full h-full flex items-center justify-center"
+                            style={{
+                              background: [
+                                "linear-gradient(135deg,rgba(99,102,241,0.25),rgba(14,165,233,0.18))",
+                                "linear-gradient(135deg,rgba(236,72,153,0.25),rgba(251,146,60,0.18))",
+                                "linear-gradient(135deg,rgba(34,197,94,0.25),rgba(250,204,21,0.18))",
+                              ][i % 3],
+                            }}
+                          >
+                            <Camera className="h-12 w-12 opacity-30 text-primary" />
+                          </div>
+                        )}
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      </div>
 
-                {/* Card body */}
-                <div className="p-5 flex flex-col gap-3 flex-1">
-                  {/* Tags */}
-                  {moment.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5">
-                      {moment.tags.slice(0, 3).map((tag, ti) => (
-                        <MomentTagBadge key={tag} tag={tag} idx={ti} />
-                      ))}
-                    </div>
-                  )}
+                      {/* Card body */}
+                      <div className="p-5 flex flex-col gap-3 flex-1">
+                        {/* Tags */}
+                        {moment.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5">
+                            {moment.tags.slice(0, 3).map((tag, ti) => (
+                              <MomentTagBadge key={tag} tag={tag} idx={ti} />
+                            ))}
+                          </div>
+                        )}
 
-                  {/* Title */}
-                  <h3 className="text-lg font-bold text-primary leading-snug group-hover:text-gradient transition-all duration-300">
-                    {moment.title}
-                  </h3>
+                        {/* Title */}
+                        <h3 className="text-lg font-bold text-primary leading-snug group-hover:text-gradient transition-all duration-300">
+                          {moment.title}
+                        </h3>
 
-                  {/* Description */}
-                  {moment.description && (
-                    <p className="text-sm text-muted-foreground line-clamp-2">{moment.description}</p>
-                  )}
+                        {/* Description */}
+                        {moment.description && (
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {moment.description}
+                          </p>
+                        )}
 
-                  {/* Meta */}
-                  <div className="mt-auto flex flex-wrap gap-3 text-xs text-muted-foreground pt-2 border-t border-border">
-                    {formattedDate && (
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3.5 w-3.5" /> {formattedDate}
-                      </span>
-                    )}
-                    {moment.location && (
-                      <span className="flex items-center gap-1">
-                        <MapPin className="h-3.5 w-3.5" /> {moment.location}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </article>
-            );
-          })}
+                        {/* Meta */}
+                        <div className="mt-auto flex flex-wrap gap-3 text-xs text-muted-foreground pt-2 border-t border-border">
+                          {formattedDate && (
+                            <span className="flex items-center gap-1">
+                              <Calendar className="h-3.5 w-3.5" /> {formattedDate}
+                            </span>
+                          )}
+                          {moment.location && (
+                            <span className="flex items-center gap-1">
+                              <MapPin className="h-3.5 w-3.5" /> {moment.location}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </article>
+                  );
+                },
+              )}
             </div>
           </ScrollReveal>
         </div>
@@ -1066,13 +1170,19 @@ function Testimonials() {
   return (
     <section id="notes" className="px-6 py-16 md:px-14 md:py-24 text-center">
       <ScrollReveal variant="fade-up">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-primary">{portfolioData.sectionTitles?.testimonials || "People talk about me"}</h2>
+        <h2 className="text-4xl md:text-5xl font-extrabold text-primary">
+          {portfolioData.sectionTitles?.testimonials || "People talk about me"}
+        </h2>
         <p className="mt-3 text-muted-foreground max-w-xl mx-auto">
           Notes from mentors, peers, and teammates I've worked with along the way.
         </p>
       </ScrollReveal>
 
-      <ScrollReveal variant="fade-up" stagger={200} className="mt-12 grid gap-6 md:grid-cols-2 text-left">
+      <ScrollReveal
+        variant="fade-up"
+        stagger={200}
+        className="mt-12 grid gap-6 md:grid-cols-2 text-left"
+      >
         {testimonials.map((t, i) => (
           <div
             key={t.name + i}
@@ -1080,7 +1190,9 @@ function Testimonials() {
           >
             <p className="text-primary leading-relaxed italic">"{t.quote}"</p>
             <div className="mt-6">
-              <div className="font-bold text-primary group-hover:text-gradient transition-all duration-300">{t.name}</div>
+              <div className="font-bold text-primary group-hover:text-gradient transition-all duration-300">
+                {t.name}
+              </div>
               <div className="text-sm text-muted-foreground">{t.role}</div>
             </div>
           </div>
@@ -1123,13 +1235,24 @@ function ContactCTA() {
             <p>{hero.email}</p>
             <InteractivePhone variant="footer" />
             <div className="flex gap-3 md:justify-end pt-3">
-              <a href={hero.githubUrl} target="_blank" rel="noreferrer" className="grid h-9 w-9 place-items-center rounded-full border border-border transition-all duration-300 hover:bg-[var(--color-yellow)] hover:scale-110 hover:shadow-[0_0_16px_oklch(0.82_0.16_85_/_0.4)]">
+              <a
+                href={hero.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="grid h-9 w-9 place-items-center rounded-full border border-border transition-all duration-300 hover:bg-[var(--color-yellow)] hover:scale-110 hover:shadow-[0_0_16px_oklch(0.82_0.16_85_/_0.4)]"
+              >
                 <Github className="h-4 w-4" />
               </a>
-              <a href={hero.linkedinUrl} className="grid h-9 w-9 place-items-center rounded-full border border-border transition-all duration-300 hover:bg-[var(--color-yellow)] hover:scale-110 hover:shadow-[0_0_16px_oklch(0.82_0.16_85_/_0.4)]">
+              <a
+                href={hero.linkedinUrl}
+                className="grid h-9 w-9 place-items-center rounded-full border border-border transition-all duration-300 hover:bg-[var(--color-yellow)] hover:scale-110 hover:shadow-[0_0_16px_oklch(0.82_0.16_85_/_0.4)]"
+              >
                 <Linkedin className="h-4 w-4" />
               </a>
-              <a href={`mailto:${hero.email}`} className="grid h-9 w-9 place-items-center rounded-full border border-border transition-all duration-300 hover:bg-[var(--color-yellow)] hover:scale-110 hover:shadow-[0_0_16px_oklch(0.82_0.16_85_/_0.4)]">
+              <a
+                href={`mailto:${hero.email}`}
+                className="grid h-9 w-9 place-items-center rounded-full border border-border transition-all duration-300 hover:bg-[var(--color-yellow)] hover:scale-110 hover:shadow-[0_0_16px_oklch(0.82_0.16_85_/_0.4)]"
+              >
                 <Mail className="h-4 w-4" />
               </a>
             </div>

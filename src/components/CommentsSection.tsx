@@ -3,7 +3,17 @@ import { useComments } from "@/hooks/use-comments";
 import type { Comment } from "@/hooks/use-comments";
 import { useAdmin } from "@/hooks/use-admin";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { Pin, Trash2, Send, Eye, MessageSquare, Star, ChevronDown, CheckCircle, AlertCircle } from "lucide-react";
+import {
+  Pin,
+  Trash2,
+  Send,
+  Eye,
+  MessageSquare,
+  Star,
+  ChevronDown,
+  CheckCircle,
+  AlertCircle,
+} from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────────────
    Relative time formatter
@@ -18,7 +28,11 @@ function relativeTime(ts: number): string {
   if (h < 24) return `${h}h ago`;
   const d = Math.floor(h / 24);
   if (d < 30) return `${d}d ago`;
-  return new Date(ts).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+  return new Date(ts).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
 }
 
 /* ──────────────────────────────────────────────────────────────────
@@ -41,7 +55,9 @@ function AnimatedCount({ target }: { target: number }) {
       if (progress < 1) raf.current = requestAnimationFrame(animate);
     };
     raf.current = requestAnimationFrame(animate);
-    return () => { if (raf.current) cancelAnimationFrame(raf.current); };
+    return () => {
+      if (raf.current) cancelAnimationFrame(raf.current);
+    };
   }, [target]);
 
   return <>{display.toLocaleString()}</>;
@@ -50,7 +66,15 @@ function AnimatedCount({ target }: { target: number }) {
 /* ──────────────────────────────────────────────────────────────────
    Avatar circle
 ────────────────────────────────────────────────────────────────── */
-function Avatar({ initials, color, size = 44 }: { initials: string; color: string; size?: number }) {
+function Avatar({
+  initials,
+  color,
+  size = 44,
+}: {
+  initials: string;
+  color: string;
+  size?: number;
+}) {
   return (
     <div
       style={{
@@ -97,7 +121,10 @@ function CommentCard({
   return (
     <div
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => { setHovered(false); setConfirmDelete(false); }}
+      onMouseLeave={() => {
+        setHovered(false);
+        setConfirmDelete(false);
+      }}
       style={{
         position: "relative",
         padding: "18px 20px",
@@ -129,23 +156,25 @@ function CommentCard({
 
       {/* Pin badge */}
       {comment.pinned && (
-        <div style={{
-          position: "absolute",
-          top: -1,
-          right: 16,
-          display: "flex",
-          alignItems: "center",
-          gap: "4px",
-          background: "linear-gradient(135deg, #f59e0b, #eab308)",
-          borderRadius: "0 0 10px 10px",
-          padding: "3px 10px",
-          fontSize: "10px",
-          fontWeight: 700,
-          color: "#000",
-          letterSpacing: "0.08em",
-          fontFamily: "'Inter', sans-serif",
-          boxShadow: "0 4px 12px rgba(245,158,11,0.3)",
-        }}>
+        <div
+          style={{
+            position: "absolute",
+            top: -1,
+            right: 16,
+            display: "flex",
+            alignItems: "center",
+            gap: "4px",
+            background: "linear-gradient(135deg, #f59e0b, #eab308)",
+            borderRadius: "0 0 10px 10px",
+            padding: "3px 10px",
+            fontSize: "10px",
+            fontWeight: 700,
+            color: "#000",
+            letterSpacing: "0.08em",
+            fontFamily: "'Inter', sans-serif",
+            boxShadow: "0 4px 12px rgba(245,158,11,0.3)",
+          }}
+        >
           <Pin size={9} /> PINNED
         </div>
       )}
@@ -154,49 +183,65 @@ function CommentCard({
         <Avatar initials={comment.avatar} color={comment.avatarColor} />
 
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap", marginBottom: "6px" }}>
-            <span style={{
-              fontWeight: 700,
-              fontSize: "14px",
-              fontFamily: "'Poppins', sans-serif",
-              color: "var(--color-primary)",
-            }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              flexWrap: "wrap",
+              marginBottom: "6px",
+            }}
+          >
+            <span
+              style={{
+                fontWeight: 700,
+                fontSize: "14px",
+                fontFamily: "'Poppins', sans-serif",
+                color: "var(--color-primary)",
+              }}
+            >
               {comment.name}
             </span>
             {isNew && (
-              <span style={{
-                fontSize: "10px",
-                fontWeight: 700,
-                background: "rgba(99,102,241,0.2)",
-                border: "1px solid rgba(99,102,241,0.4)",
-                borderRadius: "50px",
-                padding: "1px 8px",
-                color: "#a5b4fc",
-                fontFamily: "'Inter', sans-serif",
-                letterSpacing: "0.08em",
-              }}>
+              <span
+                style={{
+                  fontSize: "10px",
+                  fontWeight: 700,
+                  background: "rgba(99,102,241,0.2)",
+                  border: "1px solid rgba(99,102,241,0.4)",
+                  borderRadius: "50px",
+                  padding: "1px 8px",
+                  color: "#a5b4fc",
+                  fontFamily: "'Inter', sans-serif",
+                  letterSpacing: "0.08em",
+                }}
+              >
                 NEW
               </span>
             )}
-            <span style={{
-              fontSize: "11px",
-              color: "var(--color-muted-foreground)",
-              fontFamily: "'Inter', sans-serif",
-              marginLeft: "auto",
-            }}>
+            <span
+              style={{
+                fontSize: "11px",
+                color: "var(--color-muted-foreground)",
+                fontFamily: "'Inter', sans-serif",
+                marginLeft: "auto",
+              }}
+            >
               {relativeTime(comment.timestamp)}
             </span>
           </div>
 
-          <p style={{
-            fontSize: "14px",
-            lineHeight: 1.65,
-            color: "var(--color-primary)",
-            fontFamily: "'Inter', sans-serif",
-            margin: 0,
-            wordBreak: "break-word",
-            opacity: 0.85,
-          }}>
+          <p
+            style={{
+              fontSize: "14px",
+              lineHeight: 1.65,
+              color: "var(--color-primary)",
+              fontFamily: "'Inter', sans-serif",
+              margin: 0,
+              wordBreak: "break-word",
+              opacity: 0.85,
+            }}
+          >
             {comment.message}
           </p>
         </div>
@@ -204,16 +249,18 @@ function CommentCard({
 
       {/* Admin controls */}
       {isAdmin && (
-        <div style={{
-          position: "absolute",
-          bottom: 14,
-          right: 16,
-          display: "flex",
-          gap: "6px",
-          opacity: hovered ? 1 : 0,
-          transition: "opacity 0.2s",
-          pointerEvents: hovered ? "auto" : "none",
-        }}>
+        <div
+          style={{
+            position: "absolute",
+            bottom: 14,
+            right: 16,
+            display: "flex",
+            gap: "6px",
+            opacity: hovered ? 1 : 0,
+            transition: "opacity 0.2s",
+            pointerEvents: hovered ? "auto" : "none",
+          }}
+        >
           {/* Pin/Unpin */}
           <button
             onClick={onTogglePin}
@@ -233,8 +280,12 @@ function CommentCard({
               fontFamily: "'Inter', sans-serif",
               transition: "all 0.2s",
             }}
-            onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.05)"; }}
-            onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.05)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
+            }}
           >
             <Pin size={12} />
             {comment.pinned ? "Unpin" : "Pin"}
@@ -260,8 +311,12 @@ function CommentCard({
                 fontFamily: "'Inter', sans-serif",
                 transition: "all 0.2s",
               }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.28)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.15)"; }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.28)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.15)";
+              }}
             >
               <Trash2 size={12} />
               Delete
@@ -334,23 +389,27 @@ function CommentForm({ onSubmit }: { onSubmit: (name: string, msg: string) => vo
   };
 
   return (
-    <div style={{
-      background: "rgba(255,255,255,0.025)",
-      border: "1px solid rgba(255,255,255,0.07)",
-      borderRadius: "20px",
-      padding: "28px",
-      backdropFilter: "blur(8px)",
-    }}>
-      <h3 style={{
-        color: "var(--color-primary)",
-        fontFamily: "'Poppins', sans-serif",
-        fontSize: "17px",
-        fontWeight: 700,
-        margin: "0 0 20px",
-        display: "flex",
-        alignItems: "center",
-        gap: "8px",
-      }}>
+    <div
+      style={{
+        background: "rgba(255,255,255,0.025)",
+        border: "1px solid rgba(255,255,255,0.07)",
+        borderRadius: "20px",
+        padding: "28px",
+        backdropFilter: "blur(8px)",
+      }}
+    >
+      <h3
+        style={{
+          color: "var(--color-primary)",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "17px",
+          fontWeight: 700,
+          margin: "0 0 20px",
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+        }}
+      >
         <MessageSquare size={18} style={{ color: "var(--color-accent)" }} />
         Leave a Comment
       </h3>
@@ -358,7 +417,17 @@ function CommentForm({ onSubmit }: { onSubmit: (name: string, msg: string) => vo
       <div style={{ display: "grid", gap: "14px" }}>
         {/* Name field */}
         <div>
-          <label style={{ display: "block", color: "var(--color-muted-foreground)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.1em", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>
+          <label
+            style={{
+              display: "block",
+              color: "var(--color-muted-foreground)",
+              fontSize: "11px",
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              marginBottom: "6px",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
             YOUR NAME <span style={{ opacity: 0.5 }}>(optional)</span>
           </label>
           <input
@@ -380,13 +449,26 @@ function CommentForm({ onSubmit }: { onSubmit: (name: string, msg: string) => vo
 
         {/* Message field */}
         <div>
-          <label style={{ display: "block", color: "var(--color-muted-foreground)", fontSize: "11px", fontWeight: 600, letterSpacing: "0.1em", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>
+          <label
+            style={{
+              display: "block",
+              color: "var(--color-muted-foreground)",
+              fontSize: "11px",
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              marginBottom: "6px",
+              fontFamily: "'Inter', sans-serif",
+            }}
+          >
             YOUR MESSAGE <span style={{ color: "rgba(239,68,68,0.7)" }}>*</span>
           </label>
           <textarea
             ref={msgRef}
             value={message}
-            onChange={(e) => { setMessage(e.target.value); if (error) setError(""); }}
+            onChange={(e) => {
+              setMessage(e.target.value);
+              if (error) setError("");
+            }}
             onFocus={() => setFocused("msg")}
             onBlur={() => setFocused(null)}
             placeholder="Share your thoughts about my portfolio…"
@@ -409,13 +491,38 @@ function CommentForm({ onSubmit }: { onSubmit: (name: string, msg: string) => vo
               minHeight: "100px",
             }}
           />
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "5px" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "5px",
+            }}
+          >
             {error ? (
-              <span style={{ color: "#f87171", fontSize: "12px", fontFamily: "'Inter', sans-serif", display: "flex", alignItems: "center", gap: "4px" }}>
+              <span
+                style={{
+                  color: "#f87171",
+                  fontSize: "12px",
+                  fontFamily: "'Inter', sans-serif",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
+              >
                 <AlertCircle size={12} /> {error}
               </span>
-            ) : <span />}
-            <span style={{ color: "var(--color-muted-foreground)", fontSize: "11px", fontFamily: "'Inter', sans-serif", opacity: 0.6 }}>
+            ) : (
+              <span />
+            )}
+            <span
+              style={{
+                color: "var(--color-muted-foreground)",
+                fontSize: "11px",
+                fontFamily: "'Inter', sans-serif",
+                opacity: 0.6,
+              }}
+            >
               {message.length}/400
             </span>
           </div>
@@ -451,7 +558,8 @@ function CommentForm({ onSubmit }: { onSubmit: (name: string, msg: string) => vo
           onMouseEnter={(e) => {
             if (!submitted) {
               (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-2px)";
-              (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 14px 32px rgba(99,102,241,0.45)";
+              (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                "0 14px 32px rgba(99,102,241,0.45)";
             }
           }}
           onMouseLeave={(e) => {
@@ -462,9 +570,13 @@ function CommentForm({ onSubmit }: { onSubmit: (name: string, msg: string) => vo
           }}
         >
           {submitted ? (
-            <><CheckCircle size={16} /> Comment Posted!</>
+            <>
+              <CheckCircle size={16} /> Comment Posted!
+            </>
           ) : (
-            <><Send size={15} /> Post Comment</>
+            <>
+              <Send size={15} /> Post Comment
+            </>
           )}
         </button>
       </div>
@@ -477,31 +589,37 @@ function CommentForm({ onSubmit }: { onSubmit: (name: string, msg: string) => vo
 ────────────────────────────────────────────────────────────────── */
 export function ViewCounterBadge({ count }: { count: number }) {
   return (
-    <div style={{
-      display: "inline-flex",
-      alignItems: "center",
-      gap: "8px",
-      padding: "8px 18px",
-      borderRadius: "50px",
-      background: "rgba(99,102,241,0.1)",
-      border: "1px solid rgba(99,102,241,0.25)",
-      backdropFilter: "blur(8px)",
-    }}>
+    <div
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        padding: "8px 18px",
+        borderRadius: "50px",
+        background: "rgba(99,102,241,0.1)",
+        border: "1px solid rgba(99,102,241,0.25)",
+        backdropFilter: "blur(8px)",
+      }}
+    >
       <Eye size={15} style={{ color: "#a5b4fc" }} />
-      <span style={{
-        fontFamily: "'Poppins', sans-serif",
-        fontWeight: 700,
-        fontSize: "14px",
-        color: "#a5b4fc",
-      }}>
+      <span
+        style={{
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: 700,
+          fontSize: "14px",
+          color: "#a5b4fc",
+        }}
+      >
         <AnimatedCount target={count} />
       </span>
-      <span style={{
-        fontFamily: "'Inter', sans-serif",
-        fontSize: "12px",
-        color: "var(--color-muted-foreground)",
-        fontWeight: 500,
-      }}>
+      <span
+        style={{
+          fontFamily: "'Inter', sans-serif",
+          fontSize: "12px",
+          color: "var(--color-muted-foreground)",
+          fontWeight: 500,
+        }}
+      >
         views
       </span>
     </div>
@@ -565,46 +683,64 @@ export default function CommentsSection() {
 
       {/* ── Section Header ── */}
       <ScrollReveal variant="fade-up">
-        <div style={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: "16px",
-          marginBottom: "36px",
-          paddingBottom: "24px",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          paddingTop: "64px",
-        }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "16px",
+            marginBottom: "36px",
+            paddingBottom: "24px",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            paddingTop: "64px",
+          }}
+        >
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-              <div style={{
-                width: 36,
-                height: 36,
-                borderRadius: "10px",
-                background: "linear-gradient(135deg, #6366f1, #a855f7)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: "0 8px 20px rgba(99,102,241,0.35)",
-              }}>
+            <div
+              style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}
+            >
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: "10px",
+                  background: "linear-gradient(135deg, #6366f1, #a855f7)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  boxShadow: "0 8px 20px rgba(99,102,241,0.35)",
+                }}
+              >
                 <MessageSquare size={18} color="#fff" />
               </div>
-              <h2 style={{
-                fontFamily: "'Poppins', sans-serif",
-                fontSize: "clamp(28px, 5vw, 42px)",
-                fontWeight: 800,
-                margin: 0,
-                background: "linear-gradient(135deg, var(--color-primary) 0%, rgba(var(--foreground),0.7) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}>
+              <h2
+                style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: "clamp(28px, 5vw, 42px)",
+                  fontWeight: 800,
+                  margin: 0,
+                  background:
+                    "linear-gradient(135deg, var(--color-primary) 0%, rgba(var(--foreground),0.7) 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
                 Comments
               </h2>
             </div>
-            <p style={{ color: "var(--color-muted-foreground)", fontSize: "14px", fontFamily: "'Inter', sans-serif", margin: 0 }}>
-              {comments.length === 0 ? "Be the first to leave a comment!" : `${comments.length} comment${comments.length !== 1 ? "s" : ""} · share your thoughts`}
+            <p
+              style={{
+                color: "var(--color-muted-foreground)",
+                fontSize: "14px",
+                fontFamily: "'Inter', sans-serif",
+                margin: 0,
+              }}
+            >
+              {comments.length === 0
+                ? "Be the first to leave a comment!"
+                : `${comments.length} comment${comments.length !== 1 ? "s" : ""} · share your thoughts`}
             </p>
           </div>
 
@@ -617,20 +753,26 @@ export default function CommentsSection() {
 
       {/* ── Stats Row ── */}
       <ScrollReveal variant="fade-up" delay={80}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
-          gap: "16px",
-          marginBottom: "40px",
-        }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+            gap: "16px",
+            marginBottom: "40px",
+          }}
+        >
           {[
-            ...(portfolioData?.viewCounterConfig?.enabled !== false ? [{
-              icon: <Eye size={20} style={{ color: "#a5b4fc" }} />,
-              value: viewCount,
-              label: "Portfolio Views",
-              color: "rgba(99,102,241,0.12)",
-              border: "rgba(99,102,241,0.2)",
-            }] : []),
+            ...(portfolioData?.viewCounterConfig?.enabled !== false
+              ? [
+                  {
+                    icon: <Eye size={20} style={{ color: "#a5b4fc" }} />,
+                    value: viewCount,
+                    label: "Portfolio Views",
+                    color: "rgba(99,102,241,0.12)",
+                    border: "rgba(99,102,241,0.2)",
+                  },
+                ]
+              : []),
             {
               icon: <MessageSquare size={20} style={{ color: "#f9a8d4" }} />,
               value: comments.length,
@@ -646,31 +788,52 @@ export default function CommentsSection() {
               border: "rgba(250,204,21,0.2)",
             },
           ].map(({ icon, value, label, color, border }) => (
-            <div key={label} style={{
-              padding: "18px 20px",
-              borderRadius: "16px",
-              background: color,
-              border: `1px solid ${border}`,
-              display: "flex",
-              alignItems: "center",
-              gap: "14px",
-            }}>
-              <div style={{
-                width: 42,
-                height: 42,
-                borderRadius: "12px",
-                background: "rgba(255,255,255,0.05)",
+            <div
+              key={label}
+              style={{
+                padding: "18px 20px",
+                borderRadius: "16px",
+                background: color,
+                border: `1px solid ${border}`,
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-              }}>
+                gap: "14px",
+              }}
+            >
+              <div
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: "12px",
+                  background: "rgba(255,255,255,0.05)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 {icon}
               </div>
               <div>
-                <div style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 800, fontSize: "24px", color: "var(--color-primary)", lineHeight: 1 }}>
+                <div
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontWeight: 800,
+                    fontSize: "24px",
+                    color: "var(--color-primary)",
+                    lineHeight: 1,
+                  }}
+                >
                   <AnimatedCount target={value} />
                 </div>
-                <div style={{ fontFamily: "'Inter', sans-serif", fontSize: "11px", color: "var(--color-muted-foreground)", marginTop: "3px", fontWeight: 500 }}>
+                <div
+                  style={{
+                    fontFamily: "'Inter', sans-serif",
+                    fontSize: "11px",
+                    color: "var(--color-muted-foreground)",
+                    marginTop: "3px",
+                    fontWeight: 500,
+                  }}
+                >
                   {label}
                 </div>
               </div>
@@ -680,43 +843,62 @@ export default function CommentsSection() {
       </ScrollReveal>
 
       {/* ── Main Layout ── */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "1fr",
-        gap: "32px",
-      }}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr",
+          gap: "32px",
+        }}
         className="lg:grid-cols-[1fr_380px]"
       >
         {/* Left: Comments list */}
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           {/* Admin mode notice */}
           {isAdmin && comments.length > 0 && (
-            <div style={{
-              padding: "10px 16px",
-              borderRadius: "10px",
-              background: "rgba(124,58,237,0.1)",
-              border: "1px solid rgba(124,58,237,0.25)",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}>
+            <div
+              style={{
+                padding: "10px 16px",
+                borderRadius: "10px",
+                background: "rgba(124,58,237,0.1)",
+                border: "1px solid rgba(124,58,237,0.25)",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
               <span style={{ fontSize: "14px" }}>⚙️</span>
-              <span style={{ color: "#c4b5fd", fontSize: "12px", fontFamily: "'Inter', sans-serif", fontWeight: 600 }}>
+              <span
+                style={{
+                  color: "#c4b5fd",
+                  fontSize: "12px",
+                  fontFamily: "'Inter', sans-serif",
+                  fontWeight: 600,
+                }}
+              >
                 Admin Mode — hover any comment to pin or delete it.
               </span>
             </div>
           )}
 
           {comments.length === 0 ? (
-            <div style={{
-              textAlign: "center",
-              padding: "60px 20px",
-              color: "var(--color-muted-foreground)",
-              border: "1px dashed rgba(255,255,255,0.08)",
-              borderRadius: "20px",
-            }}>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "60px 20px",
+                color: "var(--color-muted-foreground)",
+                border: "1px dashed rgba(255,255,255,0.08)",
+                borderRadius: "20px",
+              }}
+            >
               <MessageSquare size={48} style={{ opacity: 0.2, marginBottom: "16px" }} />
-              <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: "17px", fontWeight: 600, marginBottom: "8px" }}>
+              <p
+                style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: "17px",
+                  fontWeight: 600,
+                  marginBottom: "8px",
+                }}
+              >
                 No comments yet
               </p>
               <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "13px", opacity: 0.6 }}>
@@ -757,14 +939,19 @@ export default function CommentsSection() {
                     marginTop: "4px",
                   }}
                   onMouseEnter={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(99,102,241,0.1)";
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(99,102,241,0.3)";
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "rgba(99,102,241,0.1)";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor =
+                      "rgba(99,102,241,0.3)";
                     (e.currentTarget as HTMLButtonElement).style.color = "#a5b4fc";
                   }}
                   onMouseLeave={(e) => {
-                    (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.04)";
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.08)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "var(--color-muted-foreground)";
+                    (e.currentTarget as HTMLButtonElement).style.background =
+                      "rgba(255,255,255,0.04)";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor =
+                      "rgba(255,255,255,0.08)";
+                    (e.currentTarget as HTMLButtonElement).style.color =
+                      "var(--color-muted-foreground)";
                   }}
                 >
                   <ChevronDown
@@ -774,7 +961,9 @@ export default function CommentsSection() {
                       transform: showAll ? "rotate(180deg)" : "rotate(0deg)",
                     }}
                   />
-                  {showAll ? "Show less" : `Show ${comments.length - VISIBLE_COUNT} more comment${comments.length - VISIBLE_COUNT !== 1 ? "s" : ""}`}
+                  {showAll
+                    ? "Show less"
+                    : `Show ${comments.length - VISIBLE_COUNT} more comment${comments.length - VISIBLE_COUNT !== 1 ? "s" : ""}`}
                 </button>
               )}
             </>
@@ -786,15 +975,30 @@ export default function CommentsSection() {
           <CommentForm onSubmit={(name, msg) => handleSubmit(name, msg)} />
 
           {/* Guidelines box */}
-          <div style={{
-            marginTop: "16px",
-            padding: "16px",
-            borderRadius: "12px",
-            background: "rgba(255,255,255,0.02)",
-            border: "1px solid rgba(255,255,255,0.05)",
-          }}>
-            <p style={{ color: "var(--color-muted-foreground)", fontSize: "12px", fontFamily: "'Inter', sans-serif", margin: 0, lineHeight: 1.7 }}>
-              💬 <strong style={{ color: "var(--color-primary)", opacity: 0.7 }}>Community guidelines:</strong> Be kind, constructive and respectful. Comments are public and stored locally in your browser.
+          <div
+            style={{
+              marginTop: "16px",
+              padding: "16px",
+              borderRadius: "12px",
+              background: "rgba(255,255,255,0.02)",
+              border: "1px solid rgba(255,255,255,0.05)",
+            }}
+          >
+            <p
+              style={{
+                color: "var(--color-muted-foreground)",
+                fontSize: "12px",
+                fontFamily: "'Inter', sans-serif",
+                margin: 0,
+                lineHeight: 1.7,
+              }}
+            >
+              💬{" "}
+              <strong style={{ color: "var(--color-primary)", opacity: 0.7 }}>
+                Community guidelines:
+              </strong>{" "}
+              Be kind, constructive and respectful. Comments are public and stored locally in your
+              browser.
             </p>
           </div>
         </div>

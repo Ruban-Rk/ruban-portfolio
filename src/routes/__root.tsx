@@ -14,6 +14,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
 import { IntroAnimation } from "../components/IntroAnimation";
+import { logVisit } from "../hooks/use-logs";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -152,17 +153,24 @@ function IntroManager() {
     return false;
   });
 
-  const introConfig = portfolioData?.introConfig || { enabled: true, greetingText: "Hey, there I'm", greetingColor: "#ffffff", nameText: "RUBAN", nameColor: "#ef4444", taglines: [] };
+  const introConfig = portfolioData?.introConfig || {
+    enabled: true,
+    greetingText: "Hey, there I'm",
+    greetingColor: "#ffffff",
+    nameText: "RUBAN",
+    nameColor: "#ef4444",
+    taglines: [],
+  };
 
   if (showIntroSession && introConfig.enabled) {
     return (
-      <IntroAnimation 
+      <IntroAnimation
         config={introConfig}
         heroImageUrl={portfolioData?.hero?.imageUrl}
         onComplete={() => {
           sessionStorage.setItem("intro_played", "1");
           setShowIntroSession(false);
-        }} 
+        }}
       />
     );
   }
@@ -171,6 +179,10 @@ function IntroManager() {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    logVisit();
+  }, []);
 
   return (
     <ThemeProvider>

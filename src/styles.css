@@ -102,19 +102,19 @@
 .dark {
   --background: oklch(0.17 0.03 270);
   --foreground: oklch(0.82 0.04 270);
-  --card: oklch(0.20 0.03 270);
+  --card: oklch(0.2 0.03 270);
   --card-foreground: oklch(0.82 0.04 270);
-  --popover: oklch(0.20 0.03 270);
+  --popover: oklch(0.2 0.03 270);
   --popover-foreground: oklch(0.82 0.04 270);
   --primary: oklch(0.82 0.04 270);
   --primary-foreground: oklch(0.17 0.03 270);
   --secondary: oklch(0.25 0.04 270);
   --secondary-foreground: oklch(0.82 0.04 270);
   --muted: oklch(0.25 0.04 270);
-  --muted-foreground: oklch(0.60 0.05 270);
+  --muted-foreground: oklch(0.6 0.05 270);
   --accent: oklch(0.65 0.15 270);
   --accent-foreground: oklch(0.17 0.03 270);
-  --destructive: oklch(0.60 0.15 10);
+  --destructive: oklch(0.6 0.15 10);
   --destructive-foreground: oklch(0.98 0.01 90);
   --border: oklch(0.65 0.15 270 / 15%);
   --input: oklch(0.65 0.15 270 / 20%);
@@ -128,8 +128,8 @@
   --chart-2: oklch(0.75 0.15 200);
   --chart-3: oklch(0.65 0.15 300);
   --chart-4: oklch(0.82 0.16 85);
-  --chart-5: oklch(0.60 0.15 10);
-  --sidebar: oklch(0.20 0.03 270);
+  --chart-5: oklch(0.6 0.15 10);
+  --sidebar: oklch(0.2 0.03 270);
   --sidebar-foreground: oklch(0.82 0.04 270);
   --sidebar-primary: oklch(0.65 0.15 270);
   --sidebar-primary-foreground: oklch(0.17 0.03 270);
@@ -151,7 +151,10 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
     font-weight: 700;
@@ -206,13 +209,22 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes pulse-ring {
-  0% { box-shadow: 0 0 0 0 oklch(0.72 0.16 215 / 0.5); }
-  100% { box-shadow: 0 0 0 24px oklch(0.72 0.16 215 / 0); }
+  0% {
+    box-shadow: 0 0 0 0 oklch(0.72 0.16 215 / 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 24px oklch(0.72 0.16 215 / 0);
+  }
 }
 
 @utility animate-float {

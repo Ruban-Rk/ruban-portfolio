@@ -1,5 +1,15 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, doc, getDoc, getDocs, setDoc, updateDoc, addDoc, onSnapshot } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  addDoc,
+  onSnapshot,
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // IMPORTANT: Replace this with your actual Firebase config from the Firebase Console!
@@ -9,7 +19,7 @@ const firebaseConfig = {
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "your-project",
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "your-project.appspot.com",
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "000000000000",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:000000000000:web:abcdef123456"
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:000000000000:web:abcdef123456",
 };
 
 // Initialize Firebase

@@ -18,10 +18,7 @@ const IMAGE_SELECTOR = "img, [data-cursor='image']";
 
 function isTouchDevice(): boolean {
   if (typeof window === "undefined") return true;
-  return (
-    "ontouchstart" in window ||
-    window.matchMedia("(pointer: coarse)").matches
-  );
+  return "ontouchstart" in window || window.matchMedia("(pointer: coarse)").matches;
 }
 
 // ─── Component ───────────────────────────────────────────────────────────────
@@ -66,10 +63,7 @@ export default function CustomCursor() {
       const target = e.target as HTMLElement | null;
       if (!target) return;
 
-      if (
-        target.closest(CLICKABLE_SELECTOR) ||
-        target.closest(IMAGE_SELECTOR)
-      ) {
+      if (target.closest(CLICKABLE_SELECTOR) || target.closest(IMAGE_SELECTOR)) {
         setCursorVariant("default");
       }
     },
@@ -167,12 +161,17 @@ export default function CustomCursor() {
         opacity: opacity,
         borderRadius: borderRadius,
         backdropFilter: config.type === "image" ? "none" : backdropFilter,
-        transition: "width 0.2s ease-out, height 0.2s ease-out, margin 0.2s ease-out, opacity 0.2s ease, backdrop-filter 0.2s ease, border-radius 0.2s ease",
+        transition:
+          "width 0.2s ease-out, height 0.2s ease-out, margin 0.2s ease-out, opacity 0.2s ease, backdrop-filter 0.2s ease, border-radius 0.2s ease",
       }}
       aria-hidden="true"
     >
       {config.type === "image" && config.imageUrl && (
-        <img src={config.imageUrl} alt="cursor" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img
+          src={config.imageUrl}
+          alt="cursor"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
       )}
     </div>
   );

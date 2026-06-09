@@ -40,19 +40,24 @@ A highly customized, interactive, and aesthetic portfolio designed to feel like 
 ## 🚀 Quick Start
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Ruban-Rk/ruban-portfolio.git
 cd ruban-portfolio
 ```
 
 ### 2. Install Dependencies
+
 Make sure you have Node.js and `npm` (or `bun`) installed.
+
 ```bash
 npm install
 ```
 
 ### 3. Setup Firebase & Environment
+
 Create a `.env` file in the root directory and add your Firebase credentials and secret admin password:
+
 ```env
 VITE_FIREBASE_API_KEY="your_api_key"
 VITE_FIREBASE_AUTH_DOMAIN="your_project.firebaseapp.com"
@@ -65,6 +70,7 @@ VITE_ADMIN_PASSWORD="your_super_secret_password"
 ```
 
 ### 4. Run Development Server
+
 ```bash
 npm run dev
 ```
@@ -74,6 +80,7 @@ npm run dev
 ## 🛠️ Admin Controls
 
 Once deployed, the Admin Panel gives you total control over the UI without touching the code:
+
 - **Toggle View Counter**: Hide or show the live view badge.
 - **Set Manual View Count**: Override the views.
 - **Cursor Config**: Turn the cursor into a circle, square, custom image, or raw code injection.

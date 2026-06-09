@@ -44,12 +44,18 @@ function BadgesPage() {
             <Award className="h-8 w-8 text-cyan-500" />
             <h1 className="text-4xl md:text-6xl font-black tracking-tight font-poppins">
               {portfolioData.sectionTitles?.badges || (
-                <>All <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Badges</span></>
+                <>
+                  All{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                    Badges
+                  </span>
+                </>
               )}
             </h1>
           </div>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl">
-            A comprehensive collection of my certifications, credentials, and continuous learning achievements.
+            A comprehensive collection of my certifications, credentials, and continuous learning
+            achievements.
           </p>
         </ScrollReveal>
 
@@ -58,7 +64,9 @@ function BadgesPage() {
             <div className="flex flex-col items-center justify-center py-32 rounded-3xl border border-dashed border-border/50 bg-card/30 backdrop-blur-sm text-center">
               <Award className="h-16 w-16 text-muted-foreground/30 mb-4" />
               <p className="text-xl font-semibold text-muted-foreground mb-2">No badges yet</p>
-              <p className="text-muted-foreground/60 max-w-sm">Check back later for new credentials and certifications.</p>
+              <p className="text-muted-foreground/60 max-w-sm">
+                Check back later for new credentials and certifications.
+              </p>
             </div>
           </ScrollReveal>
         ) : (

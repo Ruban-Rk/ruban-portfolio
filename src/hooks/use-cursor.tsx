@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
 export type CursorVariant = "default" | "hover" | "image" | "hidden";
 
@@ -36,9 +30,7 @@ export function CursorProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <CursorContext.Provider
-      value={{ variant, text, setCursorVariant, setCursorText, resetCursor }}
-    >
+    <CursorContext.Provider value={{ variant, text, setCursorVariant, setCursorText, resetCursor }}>
       {children}
     </CursorContext.Provider>
   );

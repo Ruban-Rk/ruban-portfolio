@@ -103,7 +103,10 @@ function Lightbox({
       onClick={onClose}
     >
       <button
-        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
         style={{
           position: "absolute",
           top: 20,
@@ -126,7 +129,10 @@ function Lightbox({
       {images.length > 1 && (
         <>
           <button
-            onClick={(e) => { e.stopPropagation(); prev(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              prev();
+            }}
             style={{
               position: "absolute",
               left: 20,
@@ -146,7 +152,10 @@ function Lightbox({
             <ChevronLeft size={22} />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); next(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              next();
+            }}
             style={{
               position: "absolute",
               right: 20,
@@ -195,7 +204,10 @@ function Lightbox({
         {images.map((_, i) => (
           <button
             key={i}
-            onClick={(e) => { e.stopPropagation(); setIdx(i); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIdx(i);
+            }}
             style={{
               width: i === idx ? 24 : 8,
               height: 8,
@@ -365,7 +377,11 @@ function MomentCard({
             background: coverSrc
               ? "transparent"
               : "linear-gradient(135deg, rgba(99,102,241,0.15) 0%, rgba(236,72,153,0.12) 100%)",
-            cursor: moment.linkedinUrl ? "pointer" : filledImages.length > 0 ? "pointer" : "default",
+            cursor: moment.linkedinUrl
+              ? "pointer"
+              : filledImages.length > 0
+                ? "pointer"
+                : "default",
           }}
           onClick={() => {
             if (moment.linkedinUrl) {
@@ -405,7 +421,13 @@ function MomentCard({
               {moment.linkedinUrl ? (
                 <>
                   <Linkedin size={36} style={{ color: "rgba(10,102,194,0.5)" }} />
-                  <span style={{ fontSize: "12px", fontFamily: "'Inter', sans-serif", color: "rgba(10,102,194,0.7)" }}>
+                  <span
+                    style={{
+                      fontSize: "12px",
+                      fontFamily: "'Inter', sans-serif",
+                      color: "rgba(10,102,194,0.7)",
+                    }}
+                  >
                     Tap to view on LinkedIn
                   </span>
                 </>
@@ -513,15 +535,27 @@ function MomentCard({
                   flexShrink: 0,
                   transition: "transform 0.2s",
                 }}
-                onMouseEnter={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1.08)")}
-                onMouseLeave={(e) => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1)")}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLImageElement).style.transform = "scale(1.08)")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLImageElement).style.transform = "scale(1)")
+                }
               />
             ))}
           </div>
         )}
 
         {/* Card body */}
-        <div style={{ padding: "20px 22px", flex: 1, display: "flex", flexDirection: "column", gap: "10px" }}>
+        <div
+          style={{
+            padding: "20px 22px",
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            gap: "10px",
+          }}
+        >
           <h3
             style={{
               color: "var(--color-primary)",
@@ -537,13 +571,30 @@ function MomentCard({
 
           <div style={{ display: "flex", flexWrap: "wrap", gap: "12px" }}>
             {formattedDate && (
-              <span style={{ display: "flex", alignItems: "center", gap: "5px", color: "rgba(var(--foreground),0.5)", fontSize: "12px", fontFamily: "'Inter', sans-serif" }}>
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  color: "rgba(var(--foreground),0.5)",
+                  fontSize: "12px",
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              >
                 <Calendar size={12} style={{ opacity: 0.6 }} />
                 <span style={{ color: "var(--color-muted-foreground)" }}>{formattedDate}</span>
               </span>
             )}
             {moment.location && (
-              <span style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontFamily: "'Inter', sans-serif" }}>
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  fontSize: "12px",
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              >
                 <MapPin size={12} style={{ color: "#f9a8d4" }} />
                 <span style={{ color: "var(--color-muted-foreground)" }}>{moment.location}</span>
               </span>
@@ -644,24 +695,25 @@ function MomentEditor({
     setTagInput("");
   };
 
-  const removeTag = (idx: number) => update("tags", data.tags.filter((_, i) => i !== idx));
+  const removeTag = (idx: number) =>
+    update(
+      "tags",
+      data.tags.filter((_, i) => i !== idx),
+    );
 
-  const handleFiles = useCallback(
-    (files: FileList | null) => {
-      if (!files) return;
-      setUploading(true);
-      Array.from(files).forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const result = e.target?.result as string;
-          setData((d) => ({ ...d, images: [...d.images, result] }));
-          setUploading(false);
-        };
-        reader.readAsDataURL(file);
-      });
-    },
-    []
-  );
+  const handleFiles = useCallback((files: FileList | null) => {
+    if (!files) return;
+    setUploading(true);
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setData((d) => ({ ...d, images: [...d.images, result] }));
+        setUploading(false);
+      };
+      reader.readAsDataURL(file);
+    });
+  }, []);
 
   const removeImage = (idx: number) => {
     const imgs = data.images.filter((_, i) => i !== idx);
@@ -731,58 +783,168 @@ function MomentEditor({
         }}
       >
         {/* Header */}
-        <div style={{ padding: "20px 24px 16px", borderBottom: "1px solid rgba(255,255,255,0.07)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <h2 style={{ color: "#fff", fontFamily: "'Poppins', sans-serif", fontSize: "17px", fontWeight: 700, margin: 0 }}>
+        <div
+          style={{
+            padding: "20px 24px 16px",
+            borderBottom: "1px solid rgba(255,255,255,0.07)",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2
+            style={{
+              color: "#fff",
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: "17px",
+              fontWeight: 700,
+              margin: 0,
+            }}
+          >
             {data.id.startsWith("moment-new") ? "✨ Add New Moment" : "✏️ Edit Moment"}
           </h2>
-          <button onClick={onCancel} style={{ background: "rgba(255,255,255,0.08)", border: "none", borderRadius: "50%", width: 34, height: 34, cursor: "pointer", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <button
+            onClick={onCancel}
+            style={{
+              background: "rgba(255,255,255,0.08)",
+              border: "none",
+              borderRadius: "50%",
+              width: 34,
+              height: 34,
+              cursor: "pointer",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <X size={16} />
           </button>
         </div>
 
-        <div style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: "16px" }}>
+        <div
+          style={{ padding: "20px 24px", display: "flex", flexDirection: "column", gap: "16px" }}
+        >
           {/* Title */}
           <div>
-            <label style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", letterSpacing: "0.1em", display: "block", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>MOMENT TITLE *</label>
-            <input style={inputStyle} value={data.title} onChange={(e) => update("title", e.target.value)} placeholder="e.g. Chennai Tech Meetup 2025" />
+            <label
+              style={{
+                color: "rgba(255,255,255,0.5)",
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                display: "block",
+                marginBottom: "6px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              MOMENT TITLE *
+            </label>
+            <input
+              style={inputStyle}
+              value={data.title}
+              onChange={(e) => update("title", e.target.value)}
+              placeholder="e.g. Chennai Tech Meetup 2025"
+            />
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
             {/* Date */}
             <div>
-              <label style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", letterSpacing: "0.1em", display: "block", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>DATE</label>
-              <input type="date" style={{ ...inputStyle, colorScheme: "dark", cursor: "pointer" }} value={data.date} onChange={(e) => update("date", e.target.value)} />
+              <label
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  display: "block",
+                  marginBottom: "6px",
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              >
+                DATE
+              </label>
+              <input
+                type="date"
+                style={{ ...inputStyle, colorScheme: "dark", cursor: "pointer" }}
+                value={data.date}
+                onChange={(e) => update("date", e.target.value)}
+              />
             </div>
             {/* Location */}
             <div>
-              <label style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", letterSpacing: "0.1em", display: "block", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>LOCATION</label>
-              <input style={inputStyle} value={data.location} onChange={(e) => update("location", e.target.value)} placeholder="City, Country" />
+              <label
+                style={{
+                  color: "rgba(255,255,255,0.5)",
+                  fontSize: "11px",
+                  letterSpacing: "0.1em",
+                  display: "block",
+                  marginBottom: "6px",
+                  fontFamily: "'Inter', sans-serif",
+                }}
+              >
+                LOCATION
+              </label>
+              <input
+                style={inputStyle}
+                value={data.location}
+                onChange={(e) => update("location", e.target.value)}
+                placeholder="City, Country"
+              />
             </div>
           </div>
 
           {/* LinkedIn URL */}
           <div>
-            <label style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", letterSpacing: "0.1em", display: "block", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>
+            <label
+              style={{
+                color: "rgba(255,255,255,0.5)",
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                display: "block",
+                marginBottom: "6px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
               <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                 <Linkedin size={12} style={{ color: "#60a5fa" }} />
                 LINKEDIN POST URL
               </span>
             </label>
             <input
-              style={{ ...inputStyle, borderColor: data.linkedinUrl ? "rgba(10,102,194,0.5)" : "rgba(255,255,255,0.1)" }}
+              style={{
+                ...inputStyle,
+                borderColor: data.linkedinUrl ? "rgba(10,102,194,0.5)" : "rgba(255,255,255,0.1)",
+              }}
               value={data.linkedinUrl ?? ""}
               onChange={(e) => update("linkedinUrl", e.target.value)}
               placeholder="https://www.linkedin.com/posts/..."
               type="url"
             />
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", marginTop: "5px", fontFamily: "'Inter', sans-serif" }}>
+            <p
+              style={{
+                color: "rgba(255,255,255,0.3)",
+                fontSize: "11px",
+                marginTop: "5px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
               When set, touching this moment will open your LinkedIn post.
             </p>
           </div>
 
           {/* Description */}
           <div>
-            <label style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", letterSpacing: "0.1em", display: "block", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>DESCRIPTION</label>
+            <label
+              style={{
+                color: "rgba(255,255,255,0.5)",
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                display: "block",
+                marginBottom: "6px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              DESCRIPTION
+            </label>
             <textarea
               style={{ ...inputStyle, minHeight: "80px", resize: "vertical" }}
               value={data.description}
@@ -793,24 +955,77 @@ function MomentEditor({
 
           {/* Tags */}
           <div>
-            <label style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", letterSpacing: "0.1em", display: "block", marginBottom: "6px", fontFamily: "'Inter', sans-serif" }}>TAGS</label>
+            <label
+              style={{
+                color: "rgba(255,255,255,0.5)",
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                display: "block",
+                marginBottom: "6px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              TAGS
+            </label>
             <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
               <input
                 style={{ ...inputStyle, flex: 1 }}
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    addTag();
+                  }
+                }}
                 placeholder="Add tag & press Enter"
               />
-              <button onClick={addTag} style={{ padding: "10px 14px", background: "rgba(99,102,241,0.3)", border: "1px solid rgba(99,102,241,0.4)", borderRadius: "10px", color: "#a5b4fc", cursor: "pointer", flexShrink: 0 }}>
+              <button
+                onClick={addTag}
+                style={{
+                  padding: "10px 14px",
+                  background: "rgba(99,102,241,0.3)",
+                  border: "1px solid rgba(99,102,241,0.4)",
+                  borderRadius: "10px",
+                  color: "#a5b4fc",
+                  cursor: "pointer",
+                  flexShrink: 0,
+                }}
+              >
                 <Plus size={14} />
               </button>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
               {data.tags.map((t, i) => (
-                <span key={i} style={{ display: "flex", alignItems: "center", gap: "5px", padding: "4px 10px", background: TAG_COLORS[i % TAG_COLORS.length].bg, border: `1px solid ${TAG_COLORS[i % TAG_COLORS.length].border}`, borderRadius: "50px", color: TAG_COLORS[i % TAG_COLORS.length].text, fontSize: "12px", fontFamily: "'Inter', sans-serif" }}>
+                <span
+                  key={i}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                    padding: "4px 10px",
+                    background: TAG_COLORS[i % TAG_COLORS.length].bg,
+                    border: `1px solid ${TAG_COLORS[i % TAG_COLORS.length].border}`,
+                    borderRadius: "50px",
+                    color: TAG_COLORS[i % TAG_COLORS.length].text,
+                    fontSize: "12px",
+                    fontFamily: "'Inter', sans-serif",
+                  }}
+                >
                   {t}
-                  <button onClick={() => removeTag(i)} style={{ background: "none", border: "none", cursor: "pointer", color: "inherit", opacity: 0.7, padding: 0, display: "flex", lineHeight: 1 }}>
+                  <button
+                    onClick={() => removeTag(i)}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "inherit",
+                      opacity: 0.7,
+                      padding: 0,
+                      display: "flex",
+                      lineHeight: 1,
+                    }}
+                  >
                     <X size={11} />
                   </button>
                 </span>
@@ -820,7 +1035,18 @@ function MomentEditor({
 
           {/* Image Upload */}
           <div>
-            <label style={{ color: "rgba(255,255,255,0.5)", fontSize: "11px", letterSpacing: "0.1em", display: "block", marginBottom: "8px", fontFamily: "'Inter', sans-serif" }}>PHOTOS</label>
+            <label
+              style={{
+                color: "rgba(255,255,255,0.5)",
+                fontSize: "11px",
+                letterSpacing: "0.1em",
+                display: "block",
+                marginBottom: "8px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
+              PHOTOS
+            </label>
             <input
               ref={fileInputRef}
               type="file"
@@ -855,7 +1081,14 @@ function MomentEditor({
 
             {/* Preview grid */}
             {data.images.filter(Boolean).length > 0 && (
-              <div style={{ marginTop: "12px", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(90px, 1fr))", gap: "8px" }}>
+              <div
+                style={{
+                  marginTop: "12px",
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fill, minmax(90px, 1fr))",
+                  gap: "8px",
+                }}
+              >
                 {data.images.filter(Boolean).map((src, i) => (
                   <div
                     key={i}
@@ -870,15 +1103,51 @@ function MomentEditor({
                     onClick={() => update("coverIndex", i)}
                     title="Click to set as cover"
                   >
-                    <img src={src} alt={`img ${i}`} loading="lazy" decoding="async" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                    <img
+                      src={src}
+                      alt={`img ${i}`}
+                      loading="lazy"
+                      decoding="async"
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
                     {data.coverIndex === i && (
-                      <div style={{ position: "absolute", top: 4, left: 4, background: "#6366f1", borderRadius: "50%", width: 18, height: 18, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 4,
+                          left: 4,
+                          background: "#6366f1",
+                          borderRadius: "50%",
+                          width: 18,
+                          height: 18,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
                         <Star size={10} fill="#fff" color="#fff" />
                       </div>
                     )}
                     <button
-                      onClick={(e) => { e.stopPropagation(); removeImage(i); }}
-                      style={{ position: "absolute", top: 4, right: 4, background: "rgba(239,68,68,0.85)", border: "none", borderRadius: "50%", width: 20, height: 20, cursor: "pointer", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center" }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeImage(i);
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: 4,
+                        right: 4,
+                        background: "rgba(239,68,68,0.85)",
+                        border: "none",
+                        borderRadius: "50%",
+                        width: 20,
+                        height: 20,
+                        cursor: "pointer",
+                        color: "#fff",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
                     >
                       <X size={10} />
                     </button>
@@ -886,21 +1155,60 @@ function MomentEditor({
                 ))}
               </div>
             )}
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", marginTop: "6px", fontFamily: "'Inter', sans-serif" }}>
+            <p
+              style={{
+                color: "rgba(255,255,255,0.3)",
+                fontSize: "11px",
+                marginTop: "6px",
+                fontFamily: "'Inter', sans-serif",
+              }}
+            >
               Click a photo to set it as cover. ⭐ = current cover.
             </p>
           </div>
         </div>
 
         {/* Footer */}
-        <div style={{ padding: "14px 24px", borderTop: "1px solid rgba(255,255,255,0.07)", display: "flex", gap: "10px", justifyContent: "flex-end" }}>
-          <button onClick={onCancel} style={{ padding: "10px 20px", background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "10px", color: "rgba(255,255,255,0.5)", cursor: "pointer", fontFamily: "'Inter', sans-serif", fontSize: "13px" }}>
+        <div
+          style={{
+            padding: "14px 24px",
+            borderTop: "1px solid rgba(255,255,255,0.07)",
+            display: "flex",
+            gap: "10px",
+            justifyContent: "flex-end",
+          }}
+        >
+          <button
+            onClick={onCancel}
+            style={{
+              padding: "10px 20px",
+              background: "rgba(255,255,255,0.06)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: "10px",
+              color: "rgba(255,255,255,0.5)",
+              cursor: "pointer",
+              fontFamily: "'Inter', sans-serif",
+              fontSize: "13px",
+            }}
+          >
             Cancel
           </button>
           <button
             onClick={() => onSave(data)}
             disabled={!data.title.trim()}
-            style={{ padding: "10px 24px", background: data.title.trim() ? "linear-gradient(135deg, #6366f1, #a855f7)" : "rgba(99,102,241,0.3)", border: "none", borderRadius: "10px", color: "#fff", cursor: data.title.trim() ? "pointer" : "not-allowed", fontFamily: "'Poppins', sans-serif", fontWeight: 700, fontSize: "13px" }}
+            style={{
+              padding: "10px 24px",
+              background: data.title.trim()
+                ? "linear-gradient(135deg, #6366f1, #a855f7)"
+                : "rgba(99,102,241,0.3)",
+              border: "none",
+              borderRadius: "10px",
+              color: "#fff",
+              cursor: data.title.trim() ? "pointer" : "not-allowed",
+              fontFamily: "'Poppins', sans-serif",
+              fontWeight: 700,
+              fontSize: "13px",
+            }}
           >
             Save Moment
           </button>
@@ -924,9 +1232,7 @@ function MomentsPage() {
 
   const saveMoment = (m: MomentItem) => {
     const exists = moments.find((x) => x.id === m.id);
-    const next = exists
-      ? moments.map((x) => (x.id === m.id ? m : x))
-      : [...moments, m];
+    const next = exists ? moments.map((x) => (x.id === m.id ? m : x)) : [...moments, m];
     updatePortfolioData({ moments: next });
     setEditingMoment(null);
   };
@@ -936,9 +1242,7 @@ function MomentsPage() {
     updatePortfolioData({ moments: moments.filter((m) => m.id !== id) });
   };
 
-  const filteredMoments = filterTag
-    ? moments.filter((m) => m.tags.includes(filterTag))
-    : moments;
+  const filteredMoments = filterTag ? moments.filter((m) => m.tags.includes(filterTag)) : moments;
 
   return (
     <>
@@ -966,13 +1270,54 @@ function MomentsPage() {
             }}
           >
             {/* Decorative blobs */}
-            <div style={{ position: "absolute", top: -60, left: "10%", width: 300, height: 300, background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)", pointerEvents: "none" }} />
-            <div style={{ position: "absolute", bottom: -40, right: "10%", width: 250, height: 250, background: "radial-gradient(circle, rgba(236,72,153,0.1) 0%, transparent 70%)", pointerEvents: "none" }} />
+            <div
+              style={{
+                position: "absolute",
+                top: -60,
+                left: "10%",
+                width: 300,
+                height: 300,
+                background: "radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }}
+            />
+            <div
+              style={{
+                position: "absolute",
+                bottom: -40,
+                right: "10%",
+                width: 250,
+                height: 250,
+                background: "radial-gradient(circle, rgba(236,72,153,0.1) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }}
+            />
 
             <ScrollReveal variant="scale">
-              <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "6px 18px", background: "rgba(99,102,241,0.12)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "50px", marginBottom: "20px" }}>
+              <div
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "6px 18px",
+                  background: "rgba(99,102,241,0.12)",
+                  border: "1px solid rgba(99,102,241,0.3)",
+                  borderRadius: "50px",
+                  marginBottom: "20px",
+                }}
+              >
                 <Camera size={14} style={{ color: "#a5b4fc" }} />
-                <span style={{ color: "#a5b4fc", fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", fontFamily: "'Inter', sans-serif" }}>PERSONAL GALLERY</span>
+                <span
+                  style={{
+                    color: "#a5b4fc",
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    letterSpacing: "0.1em",
+                    fontFamily: "'Inter', sans-serif",
+                  }}
+                >
+                  PERSONAL GALLERY
+                </span>
               </div>
             </ScrollReveal>
 
@@ -1002,7 +1347,13 @@ function MomentsPage() {
             <ScrollReveal variant="fade-up" delay={200}>
               <p
                 className="text-muted-foreground"
-                style={{ fontSize: "16px", maxWidth: 500, margin: "0 auto 32px", lineHeight: 1.7, fontFamily: "'Inter', sans-serif" }}
+                style={{
+                  fontSize: "16px",
+                  maxWidth: 500,
+                  margin: "0 auto 32px",
+                  lineHeight: 1.7,
+                  fontFamily: "'Inter', sans-serif",
+                }}
               >
                 Favourite memories — meetups, events, workshops &amp; adventures captured in time.
               </p>
@@ -1010,10 +1361,21 @@ function MomentsPage() {
 
             {/* Stats row */}
             <ScrollReveal variant="fade-up" delay={300}>
-              <div style={{ display: "flex", gap: "32px", justifyContent: "center", flexWrap: "wrap", marginBottom: "8px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "32px",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  marginBottom: "8px",
+                }}
+              >
                 {[
                   { num: moments.length, label: "Moments" },
-                  { num: moments.reduce((s, m) => s + m.images.filter(Boolean).length, 0), label: "Photos" },
+                  {
+                    num: moments.reduce((s, m) => s + m.images.filter(Boolean).length, 0),
+                    label: "Photos",
+                  },
                   { num: allTags.length, label: "Categories" },
                 ].map(({ num, label }) => (
                   <div key={label} style={{ textAlign: "center" }}>
@@ -1030,7 +1392,15 @@ function MomentsPage() {
                     >
                       {num}
                     </div>
-                    <div style={{ color: "var(--color-muted-foreground)", fontSize: "12px", fontWeight: 600, letterSpacing: "0.1em", fontFamily: "'Inter', sans-serif" }}>
+                    <div
+                      style={{
+                        color: "var(--color-muted-foreground)",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        letterSpacing: "0.1em",
+                        fontFamily: "'Inter', sans-serif",
+                      }}
+                    >
                       {label.toUpperCase()}
                     </div>
                   </div>
@@ -1049,15 +1419,27 @@ function MomentsPage() {
               flexWrap: "wrap",
             }}
           >
-            <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", flex: 1, alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: "8px",
+                flexWrap: "wrap",
+                flex: 1,
+                alignItems: "center",
+              }}
+            >
               <Tag size={14} style={{ color: "var(--color-muted-foreground)", flexShrink: 0 }} />
               <button
                 onClick={() => setFilterTag(null)}
                 style={{
                   padding: "5px 14px",
                   borderRadius: "50px",
-                  background: filterTag === null ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.05)",
-                  border: filterTag === null ? "1px solid rgba(99,102,241,0.5)" : "1px solid rgba(255,255,255,0.1)",
+                  background:
+                    filterTag === null ? "rgba(99,102,241,0.25)" : "rgba(255,255,255,0.05)",
+                  border:
+                    filterTag === null
+                      ? "1px solid rgba(99,102,241,0.5)"
+                      : "1px solid rgba(255,255,255,0.1)",
                   color: filterTag === null ? "#a5b4fc" : "var(--color-muted-foreground)",
                   cursor: "pointer",
                   fontSize: "12px",
@@ -1075,9 +1457,18 @@ function MomentsPage() {
                   style={{
                     padding: "5px 14px",
                     borderRadius: "50px",
-                    background: filterTag === t ? TAG_COLORS[i % TAG_COLORS.length].bg : "rgba(255,255,255,0.05)",
-                    border: filterTag === t ? `1px solid ${TAG_COLORS[i % TAG_COLORS.length].border}` : "1px solid rgba(255,255,255,0.1)",
-                    color: filterTag === t ? TAG_COLORS[i % TAG_COLORS.length].text : "var(--color-muted-foreground)",
+                    background:
+                      filterTag === t
+                        ? TAG_COLORS[i % TAG_COLORS.length].bg
+                        : "rgba(255,255,255,0.05)",
+                    border:
+                      filterTag === t
+                        ? `1px solid ${TAG_COLORS[i % TAG_COLORS.length].border}`
+                        : "1px solid rgba(255,255,255,0.1)",
+                    color:
+                      filterTag === t
+                        ? TAG_COLORS[i % TAG_COLORS.length].text
+                        : "var(--color-muted-foreground)",
                     cursor: "pointer",
                     fontSize: "12px",
                     fontWeight: 600,
@@ -1122,8 +1513,16 @@ function MomentsPage() {
                   whiteSpace: "nowrap",
                   transition: "all 0.3s",
                 }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.05)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 12px 32px rgba(99,102,241,0.5)"; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)"; (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 8px 24px rgba(99,102,241,0.35)"; }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.transform = "scale(1.05)";
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                    "0 12px 32px rgba(99,102,241,0.5)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.transform = "scale(1)";
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                    "0 8px 24px rgba(99,102,241,0.35)";
+                }}
               >
                 <Plus size={15} /> Add Moment
               </button>
@@ -1133,9 +1532,22 @@ function MomentsPage() {
           {/* ── Masonry / Card Grid ── */}
           <section style={{ padding: "0 28px 60px" }}>
             {filteredMoments.length === 0 ? (
-              <div style={{ textAlign: "center", padding: "80px 20px", color: "var(--color-muted-foreground)" }}>
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "80px 20px",
+                  color: "var(--color-muted-foreground)",
+                }}
+              >
                 <Camera size={52} style={{ opacity: 0.2, marginBottom: "16px" }} />
-                <p style={{ fontFamily: "'Poppins', sans-serif", fontSize: "18px", fontWeight: 600, marginBottom: "8px" }}>
+                <p
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: "18px",
+                    fontWeight: 600,
+                    marginBottom: "8px",
+                  }}
+                >
                   {filterTag ? `No moments tagged "${filterTag}"` : "No moments yet"}
                 </p>
                 <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "14px", opacity: 0.6 }}>
@@ -1164,9 +1576,7 @@ function MomentsPage() {
           </section>
 
           {/* ── Footer ── */}
-          <footer
-            className="px-6 py-8 md:px-14 flex flex-col md:flex-row justify-between items-center gap-3 border-t border-border"
-          >
+          <footer className="px-6 py-8 md:px-14 flex flex-col md:flex-row justify-between items-center gap-3 border-t border-border">
             <div
               style={{ fontFamily: "Caveat, cursive", fontSize: "24px" }}
               className="text-primary"
@@ -1192,7 +1602,11 @@ function MomentsNav({ isAdmin, onAdminClick }: { isAdmin: boolean; onAdminClick:
     <header className="sticky top-0 z-50 glass rounded-b-2xl mx-2 md:mx-4 flex items-center justify-between px-4 py-3 md:px-14 md:py-5 transition-all duration-300">
       <Link
         to="/"
-        style={{ fontFamily: "Caveat, cursive", fontSize: "clamp(26px, 4vw, 34px)", fontWeight: 700 }}
+        style={{
+          fontFamily: "Caveat, cursive",
+          fontSize: "clamp(26px, 4vw, 34px)",
+          fontWeight: 700,
+        }}
         className="text-primary transition-transform duration-300 hover:scale-105 z-50"
       >
         {portfolioData.hero.name}
@@ -1221,7 +1635,14 @@ function MomentsNav({ isAdmin, onAdminClick }: { isAdmin: boolean; onAdminClick:
         {!isAdmin && (
           <button
             onClick={onAdminClick}
-            style={{ background: "none", border: "none", color: "transparent", cursor: "default", fontSize: "1px", padding: 0 }}
+            style={{
+              background: "none",
+              border: "none",
+              color: "transparent",
+              cursor: "default",
+              fontSize: "1px",
+              padding: 0,
+            }}
             aria-label="Admin"
             id="moments-admin-trigger"
           />
@@ -1247,7 +1668,11 @@ function MomentsNav({ isAdmin, onAdminClick }: { isAdmin: boolean; onAdminClick:
         }`}
       >
         <nav className="flex flex-col items-center gap-8 text-sm tracking-[0.2em] font-bold text-primary">
-          <Link to="/" onClick={() => setMenuOpen(false)} className="hover:text-[var(--color-accent)] transition-colors flex items-center gap-2">
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="hover:text-[var(--color-accent)] transition-colors flex items-center gap-2"
+          >
             <ArrowLeft size={14} /> PORTFOLIO
           </Link>
           <span style={{ color: "#a5b4fc" }}>MOMENTS</span>

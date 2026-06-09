@@ -102,9 +102,9 @@ export function ScrollReveal({
           setIsVisible(false);
         }
       },
-      { 
+      {
         threshold,
-        rootMargin: "0px 0px -20px 0px" // Trigger slightly before it hits the very bottom of viewport
+        rootMargin: "0px 0px -20px 0px", // Trigger slightly before it hits the very bottom of viewport
       },
     );
 
