@@ -80,7 +80,10 @@ export const logVisit = async () => {
     let locationStr = "Unknown Location";
     let ip = "Unknown IP";
     try {
-      const res = await fetch("https://ipapi.co/json/");
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 3000);
+      const res = await fetch("https://ipapi.co/json/", { signal: controller.signal });
+      clearTimeout(id);
       const data = await res.json();
       if (data && data.ip) {
         ip = data.ip;
@@ -109,7 +112,10 @@ export const logAdminEdit = async (action: string, diffs: string[]) => {
     let locationStr = "Unknown Location";
     let ip = "Unknown IP";
     try {
-      const res = await fetch("https://ipapi.co/json/");
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), 3000);
+      const res = await fetch("https://ipapi.co/json/", { signal: controller.signal });
+      clearTimeout(id);
       const data = await res.json();
       if (data && data.ip) {
         ip = data.ip;
