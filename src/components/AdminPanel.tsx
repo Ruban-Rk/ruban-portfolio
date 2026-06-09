@@ -407,6 +407,7 @@ export function AdminPanel() {
   const { isAdmin, portfolioData, updatePortfolioData, logout } = useAdmin();
   const [tab, setTab] = useState<Tab>("hero");
   const [saved, setSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [isOpen, setIsOpen] = useState(true);
   const [localData, setLocalData] = useState<PortfolioData>(portfolioData);
   const [systemErrors, setSystemErrors] = useState<{ id: number; msg: string; time: Date }[]>([]);
@@ -442,6 +443,7 @@ export function AdminPanel() {
   if (!isAdmin) return null;
 
   const handleSave = async () => {
+    setIsSaving(true);
     try {
       await updatePortfolioData(localData);
       setSaved(true);
@@ -453,8 +455,10 @@ export function AdminPanel() {
         ...prev,
       ]);
       alert(
-        `Failed to save changes! Error: ${errMsg}\n\nFirebase has a 1MB limit per document. If you added multiple large images, please compress them or use external image URLs.`,
+        `Failed to save changes! Error: ${errMsg}\n\nFirebase has a 1MB limit per document. If you added multiple large images, please compress them or use external image URLs.`
       );
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -2860,11 +2864,14 @@ export function AdminPanel() {
         <button
           id="admin-save-btn"
           onClick={handleSave}
+          disabled={isSaving}
           style={{
             width: "100%",
             padding: "12px",
             background: saved
               ? "linear-gradient(135deg, #10b981, #059669)"
+              : isSaving
+              ? "linear-gradient(135deg, #4b5563, #374151)"
               : "linear-gradient(135deg, #7c3aed, #2563eb)",
             border: "none",
             borderRadius: "10px",
@@ -2872,12 +2879,12 @@ export function AdminPanel() {
             fontWeight: 700,
             fontSize: "14px",
             fontFamily: "'Poppins', sans-serif",
-            cursor: "pointer",
+            cursor: isSaving ? "wait" : "pointer",
             transition: "all 0.3s ease",
             letterSpacing: "0.03em",
           }}
         >
-          {saved ? "✓ Saved!" : "💾 Save Changes"}
+          {isSaving ? "⏳ Saving..." : saved ? "✓ Saved!" : "💾 Save Changes"}
         </button>
       </div>
     </div>
