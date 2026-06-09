@@ -505,7 +505,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
       const docRef = doc(db, "portfolio", "data");
       await setDoc(docRef, JSON.parse(JSON.stringify(data)), { merge: true });
       if (diffs.length > 0) {
-        await logAdminEdit("Portfolio Edited", diffs);
+        logAdminEdit("Portfolio Edited", diffs).catch(e => console.warn("Log edit failed", e));
       }
     } catch (err) {
       console.error("Failed to save to Firebase:", err);
