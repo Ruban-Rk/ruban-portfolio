@@ -445,7 +445,12 @@ export function AdminPanel() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      await updatePortfolioData(localData);
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Save operation timed out after 10 seconds. Check your internet connection.")), 10000)
+      );
+      
+      await Promise.race([updatePortfolioData(localData), timeoutPromise]);
+      
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
     } catch (err: any) {
