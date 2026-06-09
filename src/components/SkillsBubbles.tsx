@@ -8,12 +8,13 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 
 type Skill = SkillItem;
 
-function getCategoryMeta(isDark: boolean) {
+function getCategoryMeta(isDark: boolean): Record<string, { label: string; color: string; glow: string }> {
   return {
-    core: { label: "Core Skill", color: isDark ? "#06b6d4" : "#0284c7", glow: isDark ? "rgba(6,182,212,0.5)" : "rgba(2,132,199,0.3)" },
-    lang: { label: "Language",   color: isDark ? "#a855f7" : "#7e22ce", glow: isDark ? "rgba(168,85,247,0.5)" : "rgba(126,34,206,0.3)" },
-    tool: { label: "Tool",       color: isDark ? "#f59e0b" : "#d97706", glow: isDark ? "rgba(245,158,11,0.5)" : "rgba(217,119,6,0.3)" },
-    sec:  { label: "Security",   color: isDark ? "#ef4444" : "#dc2626", glow: isDark ? "rgba(239,68,68,0.5)" : "rgba(220,38,38,0.3)" },
+    language: { label: "Language", color: isDark ? "#a855f7" : "#7e22ce", glow: isDark ? "rgba(168,85,247,0.5)" : "rgba(126,34,206,0.3)" },
+    libraries: { label: "Libraries & Frameworks", color: isDark ? "#06b6d4" : "#0284c7", glow: isDark ? "rgba(6,182,212,0.5)" : "rgba(2,132,199,0.3)" },
+    tools: { label: "Tools & Platforms", color: isDark ? "#f59e0b" : "#d97706", glow: isDark ? "rgba(245,158,11,0.5)" : "rgba(217,119,6,0.3)" },
+    databases: { label: "Databases", color: isDark ? "#10b981" : "#059669", glow: isDark ? "rgba(16,185,129,0.5)" : "rgba(5,150,105,0.3)" },
+    security:  { label: "Security", color: isDark ? "#ef4444" : "#dc2626", glow: isDark ? "rgba(239,68,68,0.5)" : "rgba(220,38,38,0.3)" },
   };
 }
 
@@ -117,9 +118,10 @@ export default function SkillsBubbles() {
     orbsRef.current = skills.map((skill, i) => {
       const col = i % cols;
       const row = Math.floor(i / cols);
-      const r = skill.category === "core" ? 54 :
-                skill.category === "lang" ? 48 :
-                skill.category === "sec"  ? 46 : 44;
+      const r = skill.category === "libraries" ? 54 :
+                skill.category === "language" ? 48 :
+                skill.category === "security" ? 46 :
+                skill.category === "databases" ? 45 : 44;
       const bx = clamp(cellW * col + cellW / 2 + (Math.random() - 0.5) * cellW * 0.4, r + 4, W - r - 4);
       const by = clamp(cellH * row + cellH / 2 + (Math.random() - 0.5) * cellH * 0.4, r + 4, H - r - 4);
       return {
@@ -728,7 +730,7 @@ export default function SkillsBubbles() {
       {/* Static Skills List for clear view */}
       <ScrollReveal variant="fade-up" delay={400}>
         <div className="max-w-[1000px] mx-auto mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10 px-4">
-          {(["core", "lang", "tool", "sec"] as const).map((catKey) => {
+          {(["language", "libraries", "tools", "databases", "security"] as const).map((catKey) => {
             const meta = currentCatMeta[catKey];
             const catSkills = skillsRef.current.filter((s) => s.category === catKey);
             
@@ -740,9 +742,9 @@ export default function SkillsBubbles() {
                 className="glass p-6 rounded-2xl border border-border/50 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.3)]"
                 style={{ '--hover-color': meta.color } as React.CSSProperties}
               >
-                <div style={{ color: meta.color }} className="text-xs font-bold tracking-wider uppercase mb-5 flex items-center gap-2">
+                <div style={{ color: meta.color }} className="text-[11px] font-bold tracking-wider uppercase mb-5 flex items-center gap-2">
                   <div className="w-2.5 h-2.5 rounded-full" style={{ background: meta.color, boxShadow: `0 0 8px ${meta.color}` }} />
-                  {meta.label}s
+                  {meta.label}
                 </div>
                 
                 <div className="flex flex-col gap-4">

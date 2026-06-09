@@ -1342,12 +1342,13 @@ export function AdminPanel() {
 
             {/* Category legend */}
             <div style={{ display: "flex", gap: "12px", marginBottom: "16px", flexWrap: "wrap" }}>
-              {(["core", "lang", "tool", "sec"] as const).map((cat) => {
+              {(["language", "libraries", "tools", "databases", "security"] as const).map((cat) => {
                 const meta: Record<string, { label: string; color: string }> = {
-                  core: { label: "Core Skill", color: "#06b6d4" },
-                  lang: { label: "Language",   color: "#a855f7" },
-                  tool: { label: "Tool",       color: "#f59e0b" },
-                  sec:  { label: "Security",   color: "#ef4444" },
+                  language: { label: "Language", color: "#a855f7" },
+                  libraries: { label: "Libraries & Frameworks", color: "#06b6d4" },
+                  tools: { label: "Tools & Platforms", color: "#f59e0b" },
+                  databases: { label: "Databases", color: "#10b981" },
+                  security:  { label: "Security", color: "#ef4444" },
                 };
                 const m = meta[cat];
                 return (
@@ -1360,7 +1361,7 @@ export function AdminPanel() {
             </div>
 
             {localData.skills?.map((s, i) => {
-              const catColors: Record<string, string> = { core: "#06b6d4", lang: "#a855f7", tool: "#f59e0b", sec: "#ef4444" };
+              const catColors: Record<string, string> = { language: "#a855f7", libraries: "#06b6d4", tools: "#f59e0b", databases: "#10b981", security: "#ef4444" };
               const borderColor = catColors[s.category] ?? "#64748b";
               return (
                 <div key={i} style={{
@@ -1417,10 +1418,11 @@ export function AdminPanel() {
                           update("skills", next);
                         }}
                       >
-                        <option value="core" style={{ background: "#1a1a2e" }}>🩵 Core Skill</option>
-                        <option value="lang" style={{ background: "#1a1a2e" }}>💜 Language</option>
-                        <option value="tool" style={{ background: "#1a1a2e" }}>🟡 Tool</option>
-                        <option value="sec"  style={{ background: "#1a1a2e" }}>🔴 Security</option>
+                        <option value="language" style={{ background: "#1a1a2e" }}>💜 Language</option>
+                        <option value="libraries" style={{ background: "#1a1a2e" }}>🩵 Libraries & Frameworks</option>
+                        <option value="tools" style={{ background: "#1a1a2e" }}>🟡 Tools & Platforms</option>
+                        <option value="databases" style={{ background: "#1a1a2e" }}>🟢 Databases</option>
+                        <option value="security"  style={{ background: "#1a1a2e" }}>🔴 Security</option>
                       </select>
                     </div>
                     <div style={{ width: "100px" }}>
@@ -1462,7 +1464,7 @@ export function AdminPanel() {
             })}
 
             <button
-              onClick={() => update("skills", [...(localData.skills ?? []), { name: "New Skill", level: 50, category: "tool" as SkillCategory, icon: "💡", xp: 100 }])}
+              onClick={() => update("skills", [...(localData.skills ?? []), { name: "New Skill", level: 50, category: "tools" as SkillCategory, icon: "💡", xp: 100 }])}
               style={{ width: "100%", padding: "10px", background: "rgba(6,182,212,0.12)", border: "1px dashed rgba(6,182,212,0.35)", borderRadius: "8px", color: "#7dd3fc", cursor: "pointer", fontSize: "13px" }}
             >
               + Add Skill

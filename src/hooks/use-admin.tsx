@@ -40,7 +40,7 @@ export interface WorkItem {
   image?: string; // base64 data URL or empty string
 }
 
-export type SkillCategory = "core" | "lang" | "tool" | "sec";
+export type SkillCategory = "language" | "libraries" | "tools" | "databases" | "security";
 
 export interface SkillItem {
   name: string;
@@ -245,20 +245,20 @@ export const defaultPortfolioData: PortfolioData = {
     { title: "ML Playground", tag: "Python · scikit-learn", link: "" },
   ],
   skills: [
-    { name: "Python",           level: 88, category: "lang", icon: "🐍", xp: 120 },
-    { name: "Linux",            level: 92, category: "core", icon: "🐧", xp: 140 },
-    { name: "Machine Learning", level: 80, category: "core", icon: "🤖", xp: 150 },
-    { name: "Cybersecurity",    level: 75, category: "sec",  icon: "🛡️", xp: 160 },
-    { name: "C / C++",          level: 70, category: "lang", icon: "⚙️", xp: 110 },
-    { name: "JavaScript",       level: 72, category: "lang", icon: "⚡", xp: 100 },
-    { name: "SQL",              level: 68, category: "tool", icon: "🗄️", xp: 90  },
-    { name: "Git",              level: 85, category: "tool", icon: "🌿", xp: 80  },
-    { name: "Docker",           level: 60, category: "tool", icon: "🐳", xp: 95  },
-    { name: "TensorFlow",       level: 65, category: "core", icon: "🧠", xp: 130 },
-    { name: "React",            level: 70, category: "lang", icon: "⚛️", xp: 100 },
-    { name: "Bash",             level: 83, category: "sec",  icon: "💻", xp: 105 },
-    { name: "Networking",       level: 72, category: "sec",  icon: "🌐", xp: 115 },
-    { name: "scikit-learn",     level: 74, category: "core", icon: "📊", xp: 125 },
+    { name: "Python",           level: 88, category: "language", icon: "🐍", xp: 120 },
+    { name: "Linux",            level: 92, category: "tools", icon: "🐧", xp: 140 },
+    { name: "Machine Learning", level: 80, category: "libraries", icon: "🤖", xp: 150 },
+    { name: "Cybersecurity",    level: 75, category: "security",  icon: "🛡️", xp: 160 },
+    { name: "C / C++",          level: 70, category: "language", icon: "⚙️", xp: 110 },
+    { name: "JavaScript",       level: 72, category: "language", icon: "⚡", xp: 100 },
+    { name: "SQL",              level: 68, category: "databases", icon: "🗄️", xp: 90  },
+    { name: "Git",              level: 85, category: "tools", icon: "🌿", xp: 80  },
+    { name: "Docker",           level: 60, category: "tools", icon: "🐳", xp: 95  },
+    { name: "TensorFlow",       level: 65, category: "libraries", icon: "🧠", xp: 130 },
+    { name: "React",            level: 70, category: "libraries", icon: "⚛️", xp: 100 },
+    { name: "Bash",             level: 83, category: "tools",  icon: "💻", xp: 105 },
+    { name: "Networking",       level: 72, category: "security",  icon: "🌐", xp: 115 },
+    { name: "scikit-learn",     level: 74, category: "libraries", icon: "📊", xp: 125 },
   ],
   testimonials: [
     {
@@ -345,13 +345,22 @@ function loadData(): PortfolioData {
           image: w.image ?? "",
         })),
         testimonials: parsed.testimonials ?? defaultPortfolioData.testimonials,
-        skills: (parsed.skills ?? defaultPortfolioData.skills).map((s) => ({
-          ...s,
-          level: Math.max(0, Math.min(100, s.level ?? 50)),
-          xp: s.xp ?? 100,
-          icon: s.icon ?? "💡",
-          category: s.category ?? "tool",
-        })),
+        skills: (parsed.skills ?? defaultPortfolioData.skills).map((s) => {
+          let cat = s.category ?? "tools";
+          if (cat === "core") cat = "libraries";
+          else if (cat === "lang") cat = "language";
+          else if (cat === "tool") {
+            cat = s.name.toLowerCase().includes("sql") || s.name.toLowerCase().includes("mongo") ? "databases" : "tools";
+          }
+          else if (cat === "sec") cat = "security";
+          return {
+            ...s,
+            level: Math.max(0, Math.min(100, s.level ?? 50)),
+            xp: s.xp ?? 100,
+            icon: s.icon ?? "💡",
+            category: cat as SkillCategory,
+          };
+        }),
         moments: parsed.moments ?? defaultPortfolioData.moments,
         badges: parsed.badges ?? defaultPortfolioData.badges,
       };
@@ -413,7 +422,16 @@ export function AdminProvider({ children }: { children: ReactNode }) {
               timeline: fbData.timeline ?? prev.timeline,
               works: fbData.works ?? prev.works,
               testimonials: fbData.testimonials ?? prev.testimonials,
-              skills: fbData.skills ?? prev.skills,
+              skills: (fbData.skills ?? prev.skills).map((s) => {
+                let cat = s.category ?? "tools";
+                if (cat === "core") cat = "libraries";
+                else if (cat === "lang") cat = "language";
+                else if (cat === "tool") {
+                  cat = s.name.toLowerCase().includes("sql") || s.name.toLowerCase().includes("mongo") ? "databases" : "tools";
+                }
+                else if (cat === "sec") cat = "security";
+                return { ...s, category: cat as SkillCategory };
+              }),
               moments: fbData.moments ?? prev.moments,
               badges: fbData.badges ?? prev.badges,
             };
