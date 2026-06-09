@@ -126,7 +126,7 @@ function RootShell({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <Scripts />
       </body>
@@ -146,12 +146,13 @@ function AdminOverlays() {
 
 function IntroManager() {
   const { portfolioData } = useAdmin();
-  const [showIntroSession, setShowIntroSession] = useState(() => {
-    if (typeof window !== "undefined") {
-      return !sessionStorage.getItem("intro_played");
+  const [showIntroSession, setShowIntroSession] = useState(false);
+
+  useEffect(() => {
+    if (!sessionStorage.getItem("intro_played")) {
+      setShowIntroSession(true);
     }
-    return false;
-  });
+  }, []);
 
   const introConfig = portfolioData?.introConfig || {
     enabled: true,
