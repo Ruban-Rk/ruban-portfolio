@@ -661,7 +661,7 @@ export function AdminPanel() {
         className="admin-panel-scroll"
         style={{ flex: 1, minHeight: 0, overflowY: "auto", padding: "20px" }}
       >
-        {systemErrors.length > 0 && (
+        {systemErrors.length > 0 ? (
           <div
             style={{
               marginBottom: "20px",
@@ -726,6 +726,25 @@ export function AdminPanel() {
                 </div>
               ))}
             </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              marginBottom: "20px",
+              background: "rgba(16, 185, 129, 0.1)",
+              border: "1px solid rgba(16, 185, 129, 0.2)",
+              borderRadius: "8px",
+              padding: "10px 12px",
+              color: "#6ee7b7",
+              fontSize: "12px",
+              fontFamily: "'Inter', sans-serif",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <span style={{ fontSize: "14px" }}>✅</span>
+            <span><strong style={{ fontWeight: 600 }}>System Status:</strong> All systems operational. No active alerts.</span>
           </div>
         )}
 
