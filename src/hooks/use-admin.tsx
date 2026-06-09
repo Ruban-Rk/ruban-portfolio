@@ -379,15 +379,16 @@ export function generateMomentId(): string {
 }
 
 export function AdminProvider({ children }: { children: ReactNode }) {
-  const [isAdmin, setIsAdmin] = useState(() => {
-    try {
-      return localStorage.getItem(ADMIN_KEY) === "true";
-    } catch {
-      return false;
-    }
-  });
-  const [portfolioData, setPortfolioData] = useState<PortfolioData>(loadData);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [portfolioData, setPortfolioData] = useState<PortfolioData>(defaultPortfolioData);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+  useEffect(() => {
+    try {
+      setIsAdmin(localStorage.getItem(ADMIN_KEY) === "true");
+      setPortfolioData(loadData());
+    } catch {}
+  }, []);
 
   const login = useCallback((password: string): boolean => {
     if (password === ADMIN_PASSWORD) {

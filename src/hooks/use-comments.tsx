@@ -88,8 +88,13 @@ function saveViews(count: number) {
 // ─── Hook ──────────────────────────────────────────────────────────
 
 export function useComments() {
-  const [comments, setComments] = useState<Comment[]>(loadComments);
-  const [viewCount, setViewCount] = useState<number>(loadViews);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [viewCount, setViewCount] = useState<number>(0);
+
+  useEffect(() => {
+    setComments(loadComments());
+    setViewCount(loadViews());
+  }, []);
 
   // Sync Views from Firebase
   useEffect(() => {
