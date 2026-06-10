@@ -48,6 +48,7 @@ export interface SkillItem {
   level: number; // 0-100 proficiency
   category: SkillCategory;
   icon: string; // emoji
+  iconUrl?: string; // image url
   xp: number; // XP awarded on click
 }
 
@@ -247,20 +248,20 @@ export const defaultPortfolioData: PortfolioData = {
     { title: "ML Playground", tag: "Python · scikit-learn", link: "" },
   ],
   skills: [
-    { name: "Python", level: 88, category: "language", icon: "🐍", xp: 120 },
-    { name: "Linux", level: 92, category: "tools", icon: "🐧", xp: 140 },
-    { name: "Machine Learning", level: 80, category: "libraries", icon: "🤖", xp: 150 },
-    { name: "Cybersecurity", level: 75, category: "security", icon: "🛡️", xp: 160 },
-    { name: "C / C++", level: 70, category: "language", icon: "⚙️", xp: 110 },
-    { name: "JavaScript", level: 72, category: "language", icon: "⚡", xp: 100 },
-    { name: "SQL", level: 68, category: "databases", icon: "🗄️", xp: 90 },
-    { name: "Git", level: 85, category: "tools", icon: "🌿", xp: 80 },
-    { name: "Docker", level: 60, category: "tools", icon: "🐳", xp: 95 },
-    { name: "TensorFlow", level: 65, category: "libraries", icon: "🧠", xp: 130 },
-    { name: "React", level: 70, category: "libraries", icon: "⚛️", xp: 100 },
-    { name: "Bash", level: 83, category: "tools", icon: "💻", xp: 105 },
-    { name: "Networking", level: 72, category: "security", icon: "🌐", xp: 115 },
-    { name: "scikit-learn", level: 74, category: "libraries", icon: "📊", xp: 125 },
+    { name: "Python", level: 88, category: "language", icon: "🐍", iconUrl: "", xp: 120 },
+    { name: "Linux", level: 92, category: "tools", icon: "🐧", iconUrl: "", xp: 140 },
+    { name: "Machine Learning", level: 80, category: "libraries", icon: "🤖", iconUrl: "", xp: 150 },
+    { name: "Cybersecurity", level: 75, category: "security", icon: "🛡️", iconUrl: "", xp: 160 },
+    { name: "C / C++", level: 70, category: "language", icon: "⚙️", iconUrl: "", xp: 110 },
+    { name: "JavaScript", level: 72, category: "language", icon: "⚡", iconUrl: "", xp: 100 },
+    { name: "SQL", level: 68, category: "databases", icon: "🗄️", iconUrl: "", xp: 90 },
+    { name: "Git", level: 85, category: "tools", icon: "🌿", iconUrl: "", xp: 80 },
+    { name: "Docker", level: 60, category: "tools", icon: "🐳", iconUrl: "", xp: 95 },
+    { name: "TensorFlow", level: 65, category: "libraries", icon: "🧠", iconUrl: "", xp: 130 },
+    { name: "React", level: 70, category: "libraries", icon: "⚛️", iconUrl: "", xp: 100 },
+    { name: "Bash", level: 83, category: "tools", icon: "💻", iconUrl: "", xp: 105 },
+    { name: "Networking", level: 72, category: "security", icon: "🌐", iconUrl: "", xp: 115 },
+    { name: "scikit-learn", level: 74, category: "libraries", icon: "📊", iconUrl: "", xp: 125 },
   ],
   testimonials: [
     {
@@ -362,6 +363,7 @@ function loadData(): PortfolioData {
             level: Math.max(0, Math.min(100, s.level ?? 50)),
             xp: s.xp ?? 100,
             icon: s.icon ?? "💡",
+            iconUrl: s.iconUrl ?? "",
             category: cat as SkillCategory,
           };
         }),
@@ -439,7 +441,7 @@ export function AdminProvider({ children }: { children: ReactNode }) {
                         ? "databases"
                         : "tools";
                   } else if (cat === "sec") cat = "security";
-                  return { ...s, category: cat as SkillCategory };
+                  return { ...s, category: cat as SkillCategory, iconUrl: s.iconUrl ?? "" };
                 }),
                 moments: fbData.moments ?? prev.moments,
                 badges: fbData.badges ?? prev.badges,

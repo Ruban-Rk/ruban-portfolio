@@ -53,6 +53,7 @@ interface OrbState {
   skill: Skill;
   index: number;
   phase: number; // for sin oscillation
+  image?: HTMLImageElement;
 }
 
 /* ─── Particle burst ─────────────────────────────────────────────── */
@@ -170,7 +171,7 @@ export default function SkillsBubbles() {
         r + 4,
         H - r - 4,
       );
-      return {
+      const orb: OrbState = {
         x: bx,
         y: by,
         vx: (Math.random() - 0.5) * 0.6,
@@ -182,6 +183,15 @@ export default function SkillsBubbles() {
         index: i,
         phase: Math.random() * Math.PI * 2,
       };
+
+      if (skill.iconUrl) {
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = skill.iconUrl;
+        orb.image = img;
+      }
+
+      return orb;
     });
   }, []);
 
@@ -463,8 +473,13 @@ export default function SkillsBubbles() {
         ctx.fillStyle = themeRef.current ? "#ffffff" : "#0f172a";
         ctx.fillText(o.skill.name, o.x, o.y + 12);
 
-        ctx.font = `${isHov ? 26 : 22}px sans-serif`;
-        ctx.fillText(o.skill.icon, o.x, o.y - r * 0.18);
+        if (o.image && o.image.complete && o.image.naturalHeight !== 0) {
+          const imgSize = isHov ? 32 : 26;
+          ctx.drawImage(o.image, o.x - imgSize / 2, o.y - r * 0.18 - imgSize / 2, imgSize, imgSize);
+        } else {
+          ctx.font = `${isHov ? 26 : 22}px sans-serif`;
+          ctx.fillText(o.skill.icon, o.x, o.y - r * 0.18);
+        }
 
         /* level bar (hovered) */
         if (isHov) {

@@ -2715,6 +2715,22 @@ export function AdminPanel() {
                     </div>
                   </div>
 
+                  {/* Icon URL row */}
+                  <div style={{ marginBottom: "8px" }}>
+                    <label style={labelStyle}>Icon URL (optional image)</label>
+                    <input
+                      className="admin-input"
+                      style={inputStyle}
+                      value={s.iconUrl || ""}
+                      onChange={(e) => {
+                        const next = [...localData.skills];
+                        next[i] = { ...next[i], iconUrl: e.target.value };
+                        update("skills", next);
+                      }}
+                      placeholder="https://... or data:image/..."
+                    />
+                  </div>
+
                   {/* Category + XP row */}
                   <div style={{ display: "flex", gap: "8px", marginBottom: "8px" }}>
                     <div style={{ flex: 1 }}>
@@ -2827,6 +2843,7 @@ export function AdminPanel() {
                     level: 50,
                     category: "tools" as SkillCategory,
                     icon: "💡",
+                    iconUrl: "",
                     xp: 100,
                   },
                 ])
