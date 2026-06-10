@@ -186,9 +186,31 @@ export default function SkillsBubbles() {
 
       if (skill.iconUrl) {
         const img = new Image();
-        img.referrerPolicy = "no-referrer";
-        img.src = skill.iconUrl;
         orb.image = img;
+        
+        if (skill.iconUrl.startsWith("data:")) {
+          img.src = skill.iconUrl;
+        } else {
+          fetch(skill.iconUrl)
+            .then(res => {
+              if (!res.ok) throw new Error("HTTP error " + res.status);
+              return res.blob();
+            })
+            .then(blob => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                if (reader.result) {
+                  img.src = reader.result as string;
+                }
+              };
+              reader.readAsDataURL(blob);
+            })
+            .catch(err => {
+              console.error("Fallback to direct src. Blob fetch failed for", skill.name, err);
+              img.referrerPolicy = "no-referrer";
+              img.src = skill.iconUrl;
+            });
+        }
       }
 
       return orb;
