@@ -1073,8 +1073,12 @@ export default function SkillsBubbles() {
                     .sort((a, b) => b.level - a.level)
                     .map((s, i) => (
                       <div key={i} className="flex items-center gap-3 group/skill">
-                        <div className="w-9 h-9 shrink-0 rounded-full bg-background/50 flex items-center justify-center text-lg border border-border/50 group-hover/skill:scale-110 transition-all duration-300 shadow-sm">
-                          {s.icon}
+                        <div className="w-9 h-9 shrink-0 rounded-full bg-background/50 flex items-center justify-center text-lg border border-border/50 group-hover/skill:scale-110 transition-all duration-300 shadow-sm overflow-hidden">
+                          {s.iconUrl ? (
+                            <img src={s.iconUrl} alt={s.name} className="w-5 h-5 object-contain" />
+                          ) : (
+                            s.icon
+                          )}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-1.5">
