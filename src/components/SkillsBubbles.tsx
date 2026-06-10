@@ -186,6 +186,7 @@ export default function SkillsBubbles() {
 
       if (skill.iconUrl) {
         const img = new Image();
+        img.referrerPolicy = "no-referrer";
         img.src = skill.iconUrl;
         orb.image = img;
       }
@@ -472,9 +473,23 @@ export default function SkillsBubbles() {
         ctx.fillStyle = themeRef.current ? "#ffffff" : "#0f172a";
         ctx.fillText(o.skill.name, o.x, o.y + 12);
 
-        if (o.image && o.image.complete && o.image.naturalHeight !== 0) {
-          const imgSize = isHov ? 32 : 26;
-          ctx.drawImage(o.image, o.x - imgSize / 2, o.y - r * 0.18 - imgSize / 2, imgSize, imgSize);
+        if (o.image) {
+          if (!o.image.dataset.logged) {
+             console.log("Image state:", o.skill.name, o.image.complete, o.image.naturalWidth, o.image.naturalHeight, o.image.src);
+             if (o.image.complete) o.image.dataset.logged = "true";
+          }
+          if (o.image.complete && o.image.naturalHeight !== 0) {
+            const imgSize = isHov ? 32 : 26;
+            ctx.drawImage(o.image, o.x - imgSize / 2, o.y - r * 0.18 - imgSize / 2, imgSize, imgSize);
+          } else if (o.image.complete && o.image.naturalHeight === 0) {
+            // failed to load
+            ctx.font = `${isHov ? 26 : 22}px sans-serif`;
+            ctx.fillText("❌", o.x, o.y - r * 0.18);
+          } else {
+            // loading
+            ctx.font = `10px sans-serif`;
+            ctx.fillText("...", o.x, o.y - r * 0.18);
+          }
         } else {
           ctx.font = `${isHov ? 26 : 22}px sans-serif`;
           ctx.fillText(o.skill.icon, o.x, o.y - r * 0.18);
