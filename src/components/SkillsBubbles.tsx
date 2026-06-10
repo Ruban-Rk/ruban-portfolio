@@ -186,7 +186,6 @@ export default function SkillsBubbles() {
 
       if (skill.iconUrl) {
         const img = new Image();
-        img.crossOrigin = "Anonymous";
         img.src = skill.iconUrl;
         orb.image = img;
       }
